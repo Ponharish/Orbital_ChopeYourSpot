@@ -25,6 +25,7 @@ class LoginForm(forms.Form):
         label="Password", 
         required=True,
         )
+        
 
     captcha = forms.CharField(
         max_length=9, 
@@ -32,6 +33,8 @@ class LoginForm(forms.Form):
         required=True,
         widget=forms.TextInput(attrs={'placeholder': 'Enter Captcha'})
         )
+
+        #TEST
 
     def clean_domain(self):
         domain = self.cleaned_data.get('domain').strip()
