@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Register</title>
+    </head>
+    <style>
+        .heading {
+          background-color: rgb(196, 227, 238);
+          text-align: center;
+        }
+        .form {
+          text-align: center;
+        }
+        .error {
+          text-align: center;
+          color: red;
+          font-size: 22px;
+        }
+    </style>
+    <body bgcolor = #CAEEC4>
+        <div class = "heading">
+            <br>
+            <font color = #377CDE><h1 id = "unamefield">Register</h1></font>
+            <hr color=#00008B>
+        </div>
+
+        <div class = "form">
+            <br>
+            <form method="get" action="{% url 'handle_redirect_register' %}"> <!--depending on type of user, they get directed to different pages-->
+                <table cellpadding = 10; align = center>
+                    <tr valign = "middle">
+                        <td align = "right"><label for="userType">Select User Type</label></td>
+                        <td align = "left"><select id="userType" name="userType">
+                            <option value="Employer_Employee">Employer/Employee</option>
+                            <option value="Company_Admin">Company Admin</option>
+                        </select></td>
+                    </tr>
+                </table>
+                <br><br>
+                
+                <input type="submit" value="Submit">
+            </form>
+        </div>
+
+        <div class = "error">
+            <P> </P>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Register</title>
+    </head>
+    <style>
+        .heading {
+          background-color: rgb(196, 227, 238);
+          text-align: center;
+        }
+        .form {
+          text-align: center;
+        }
+        .error {
+          text-align: center;
+          color: red;
+          font-size: 22px;
+        }
+    </style>
+    <body bgcolor = #CAEEC4>
+        <div class = "heading">
+            <br>
+            <font color = #377CDE><h1>Payment</h1></font>
+            <hr color=#00008B>
+        </div>
+
+        <div class = "form">
+            <br>
+            <p>To register your compnay, please pay an one time payment of <B>S$ 50 </B> <br>
+            to aquire liscence for your company.<br><br>
+            Payment is accepted as telegraphic transfer. <br><br>
+            After the transfer is performed, please submit the transaction reference code below<br></p>
+            <br><br><br>
+            <form method = 'post'> 
+                {% csrf_token %}
+                <table cellpadding = 7; align = center>
+                    <tr valign = "middle">
+                        <td align = "right">Account Holder Name</td>
+                        <td align = "left">CYS Developers</td>
+                    </tr>
+                    <tr valign = "middle">
+                        <td align = "right">Account Number</td>
+                        <td align = "left">17289862736</td>
+                    </tr>
+
+                    <tr valign = "middle">
+                        <td align = "right">Bank</td>
+                        <td align = "left">ABC Banks</td>
+                    </tr>
+
+                    <tr valign = "middle">
+                        <td align = "right"><label for="transreference">Transaction Reference</label></td>
+                        <td align = "left">{{ form.PaymentReference }}</td>
+                    </tr>
+
+
+                </table>
+                <br><br>
+                
+                <input type="submit" value="Submit">
+            </form>
+        </div>
+        <div class = "error">
+            {% if form.errors %}
+                    <br><br>
+                    {% for field, errors in form.errors.items %}
+                        {% for error in errors %}
+                            <p><font size = 4>{{ error }}</font></p>
+                        {% endfor %}
+                    {% endfor %}
+                
+            {% endif %}
+        </div>
+    </body>
+</html>

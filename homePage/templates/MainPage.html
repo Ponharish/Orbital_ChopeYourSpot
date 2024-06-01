@@ -1,0 +1,81 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>ChopeYourSpot</title>
+    </head>
+    <style>
+
+        .header {
+            background-color: rgb(196, 227, 238);
+        }
+        
+        .header img {
+            float: left;
+            width: 100px;
+            height: 100px;
+            padding-left: 25px;
+            background-color: rgb(196, 227, 238);
+        }
+
+        .header h1 {
+            position: relative;
+            top: 18px;
+            left: 10px;
+            
+        }
+        .banner {
+          text-align: center;
+        }
+        .banner img {
+            position : relative;
+            width: 1200px;
+            height: 450px;
+            padding-left: 10px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            padding-right: 10px;
+            
+        }
+        .button {
+            cursor: pointer;
+            margin-left: 100px;
+            
+        }
+
+        .error {
+          text-align: center;
+          color: red;
+          font-size: 22px;
+        }
+    </style>
+    <body bgcolor = #CAEEC4>
+
+        <div class = "header">
+            <br>
+            
+            <img src = "{% static 'logo.png' %}" alt = "logo" />
+            <font color = #377CDE><h1>  CHOPE YOUR SPOT</h1></font>
+
+            <br><br>
+            <hr color=#00008B>
+        </div>
+
+        <div class = "banner">
+            <img src = "{% static 'banner.png' %}" alt = "banner" >
+            <br>
+        </div>
+
+        <div class = "Navigation">
+            <a href = '/login'><button class="button button1"type="button" autofocus><img src = "{% static 'loginicon.png' %}" alt = "Login" height = 170; width = 155;></button></a>
+        
+        </div>
+
+        
+
+        <div class = "error">
+            <P> </P>
+        </div>
+
+    </body>
+</html>
