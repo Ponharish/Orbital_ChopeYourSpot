@@ -71,3 +71,23 @@ How to try this project?
 
 -> a link will be displayed in terminal/cmd eg: (http://127.0.0.1:8000/)
     open it in browser and use it
+
+
+
+Other Notes
+
+Since the system administrator page is not created yet, to manually approve companies perform the following strops
+
+- python manage.py shell
+  
+ (in shell type the following)
+  from login.models import registeredDomains
+
+  registeredDomains.objects.all().values() – to find the index value
+
+  x = registeredDomains.objects.all()[<replace with entry number>]
+
+  x.approved = True
+
+  x.save()
+
