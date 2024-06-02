@@ -1,7 +1,37 @@
 # Orbital-ChopeYourSpot
 
 What is this Project about?
+ChopeYourSpot is a Web Application that allows for the reservation and booking of common office spaces in corporate companies.
+Have you ever been in this situation where you wanted to use a common space but often assume that it is too crowded or felt this is not the right time and ended up never using it? We have developed this solution where corporate companies can register with us and purchase a license using which all users can create a free account, using it to book common spaces in their office. By using our applications, now our corporate users better utilize these common spaces.
 
+
+User Stories
+
+ -> As an employer/employee, I am able to login to this app to book a slot (timing & location) for meetings within the office space
+ -> As a company administrator, I am able to manage the availability of slots (increase it on demand) and manage user accounts (creation and deletion)
+ -> As a system administrator, I am able to handle company registration of the service 
+
+
+Features
+
+- User Authentication (with 2FA and captcha)
+- Booking common spaces
+- Searching for available facilities
+- customized interface for different user groups
+- Messaging among users
+- Payment for company registration
+- Feedback system
+
+
+Tech Stack
+
+- Python
+- Django
+- SQLite
+- HTML
+- CSS
+- JavaScript
+- GitHub
 
 
 How to try this project?
@@ -19,6 +49,8 @@ How to try this project?
 
   -> copy the entire repo to your folder
   so now your directory looks like 
+
+  (In github pls view this under code and NOT preview)
     project/
     ├── venv/
     │   ├── Include/
