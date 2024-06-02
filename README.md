@@ -1,3 +1,3 @@
 # Orbital-ChopeYourSpot
 
-DOCUMNENTATION
+DOCUMENTATION
