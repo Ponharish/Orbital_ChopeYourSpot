@@ -9,7 +9,7 @@ User Stories
 
  -> As an employer/employee, I am able to login to this app to book a slot (timing & location) for meetings within the office space
  -> As a company administrator, I am able to manage the availability of slots (increase it on demand) and manage user accounts (creation and deletion)
- -> As a system administrator, I am able to handle company registration of the service 
+ -> As a system administrator, I am able to handle company registration of the service docs
 
 
 Features
