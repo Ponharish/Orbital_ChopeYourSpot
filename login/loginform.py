@@ -25,6 +25,8 @@ class LoginForm(forms.Form):
         label="Password", 
         required=True,
         )
+
+        
         
 
     captcha = forms.CharField(

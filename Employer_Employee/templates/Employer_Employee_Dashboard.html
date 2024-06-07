@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
     <head>
@@ -10,6 +11,27 @@
         .content {
           text-align: center;
         }
+        .button {
+            cursor: pointer;
+            margin-left: 30px;
+            margin-top: 20px;
+        }
+        .Navigation1 {
+            
+            margin-left: 100px;
+        }
+        .Navigation2 {
+            margin-left: 100px;
+        }
+        .Navigation3 {
+            margin-left: 100px;
+        }
+        .Navigation4 {
+            margin-left: 100px;
+        }
+        .Navigation5 {
+            margin-left: 100px;
+        }
         .error {
           text-align: center;
           color: red;
@@ -20,13 +42,47 @@
         
         <div class = "heading">
             <br>
-            <font color = #377CDE><h3 id = "unamefield">Welcome {{ first_name }}</h3></font>
+            <font color = #377CDE><h2 style="padding-left: 20px;" id = "unamefield">Welcome {{ first_name }}</h2></font>
+            <font color = #377CDE><h3 style="padding-left: 20px;"> {{ company }} </h3></font>
             <hr color=#00008B>
         </div>
 
+        <div class = "Navigation1">
+            <br><br>
+            <h2><u>Bookings</u></h2><br>
+            <a><button class="button button1"type="button" autofocus><img src = "{% static 'makeabooking.png' %}" alt = "make a booking" height = 170; width = 155;></button></a>
+            <a><button class="button button1"type="button" autofocus><img src = "{% static 'viewbookings.png' %}" alt = "view bookings" height = 170; width = 155;></button></a>
+            <a><button class="button button1"type="button" autofocus><img src = "{% static 'cancelsession.png' %}" alt = "cancelsession" height = 170; width = 155;></button></a>
+            <a><button class="button button1"type="button" autofocus><img src = "{% static 'searchforfacility.png' %}" alt = "search for facility" height = 170; width = 155;></button></a>
+        
+        </div>
+
+        <div class = "Navigation2">
+            <br><br>
+            <h2><u>Session</u></h2><br>
+            <a><button class="button button1"type="button" autofocus><img src = "{% static 'startsession.png' %}" alt = "start session" height = 170; width = 155;></button></a>
+            <a><button class="button button1"type="button" autofocus><img src = "{% static 'endsession.png' %}" alt = "end session" height = 170; width = 155;></button></a>
+            
+        </div>
+
+        <div class = "Navigation4">
+            <br><br>
+            <h2><u>Messaging</u></h2><br>
+            <a><button class="button button1"type="button" autofocus><img src = "{% static 'chat.png' %}" alt = "chat" height = 170; width = 155;></button></a>
+        
+        </div>
+
+        <div class = "Navigation5">
+            <br><br>
+            <h2><u>Account</u></h2><br>
+            <a><button class="button button1"type="button" autofocus><img src = "{% static 'updatedetails.png' %}" alt = "update details" height = 170; width = 155;></button></a>
+            <a><button class="button button1"type="button" autofocus><img src = "{% static 'logout.png' %}" alt = "logout" height = 170; width = 155;></button></a>
+        
+        </div>
+
+
         <div class = "content">
             <br>
-            <p>This is the landing page for Employer/Employee<br></p>
             <br><br><br><br><br><br><br><br><br>
             <a href = "../login"><input type="button" id = "Home" name = "Home" value="Log Out"></a> <br>
         </div>
