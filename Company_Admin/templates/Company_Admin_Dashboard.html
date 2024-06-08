@@ -39,6 +39,9 @@
             margin-left: 100px;
         }
     </style>
+
+    
+
     <body bgcolor = #CAEEC4>
         
         <div class = "heading">
@@ -79,18 +82,26 @@
             <br><br>
             <h2><u>Account</u></h2><br>
             <a><button class="button button1"type="button" autofocus><img src = "{% static 'updatedetails.png' %}" alt = "update details" height = 170; width = 155;></button></a>
-            <a><button class="button button1"type="button" autofocus><img src = "{% static 'logout.png' %}" alt = "logout" height = 170; width = 155;></button></a>
+            <a><button  id="logoutButton" class="button button1" type="button" autofocus><img src = "{% static 'logout.png' %}" alt = "logout" height = 170; width = 155;></button></a>
         
         </div>
 
 
 
-        <div class = "content">
-
-            <a href = "../login"><input type="button" id = "Home" name = "Home" value="Log Out"></a> <br>
-        </div>
-
-        
+        <script>
+            var csrftoken = "{{ csrf_token }}";
+            document.getElementById("logoutButton").addEventListener("click", function() {
+               
+                var result = confirm("Are you sure you want to log out?");
+                
+               
+                if (result) {
+                    window.location.href = "logoutpageca"; //CHANGE THIS LATER !!!!!!!!!!!!!!!!!!!
+                } else {
+                    // Do nothing or handle cancel action
+                }
+            });
+        </script>
 
         <div class = "error">
             <P> </P>

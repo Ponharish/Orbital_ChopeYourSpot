@@ -52,10 +52,10 @@
         <div class = "Navigation1">
             <br><br>
             <h2><u>Manage Companies</u></h2><br>
-            <a><button class="button button1"type="button" autofocus><img src = "{% static 'seependingrequest.png' %}" alt = "see pending requests" height = 170; width = 155;></button></a>
+            <a href = 'seependingrequest'><button class="button button1"type="button" autofocus><img src = "{% static 'seependingrequest.png' %}" alt = "see pending requests" height = 170; width = 155;></button></a>
             <a><button class="button button1"type="button" autofocus><img src = "{% static 'approvecompanies.png' %}" alt = "approve companies" height = 170; width = 155;></button></a>
             <a><button class="button button1"type="button" autofocus><img src = "{% static 'rejectapplication.png' %}" alt = "reject application" height = 170; width = 155;></button></a>
-            <a><button class="button button1"type="button" autofocus><img src = "{% static 'viewlistofcompanies.png' %}" alt = "view list of companies" height = 170; width = 155;></button></a>
+            <a href = 'viewlistofcompanies'><button class="button button1"type="button" autofocus><img src = "{% static 'viewlistofcompanies.png' %}" alt = "view list of companies" height = 170; width = 155;></button></a>
             <a><button class="button button1"type="button" autofocus><img src = "{% static 'removecompany.png' %}" alt = "remove company" height = 170; width = 155;></button></a>
         
             
@@ -85,16 +85,26 @@
             <br><br>
             <h2><u>Account</u></h2><br>
             <a><button class="button button1"type="button" autofocus><img src = "{% static 'updatedetails.png' %}" alt = "update details" height = 170; width = 155;></button></a>
-            <a><button class="button button1"type="button" autofocus><img src = "{% static 'logout.png' %}" alt = "logout" height = 170; width = 155;></button></a>
+            <a><button id="logoutButton"  class="button button1"type="button" autofocus><img src = "{% static 'logout.png' %}" alt = "logout" height = 170; width = 155;></button></a>
         
         </div>
 
+        <script>
+            var csrftoken = "{{ csrf_token }}";
+            document.getElementById("logoutButton").addEventListener("click", function() {
+               
+                var result = confirm("Are you sure you want to log out?");
+                
+               
+                if (result) {
+                    window.location.href = "logoutpage"; 
+                } else {
+                }
+            });
+        </script>
 
-        <div class = "content">
-            <br>
-            
-            <a href = "../login"><input type="button" id = "Home" name = "Home" value="Log Out"></a> <br>
-        </div>
+
+ 
         
 
         <div class = "error">
