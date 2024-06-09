@@ -94,7 +94,7 @@
                         <td>{{ cpmny.company_Address|default:"-" }}</td>
                         <td>{{ cpmny.admin_officer|default:"-" }}</td>
                         <td>{{ cpmny.domain|default:"-" }}</td>
-                        <td>{{ cpmny.approved|default:"-" }}</td>
+                        <td>{{ cpmny.approved|default:"<font color = 'red'>Not Approved</font>" }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>

@@ -1,0 +1,63 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Approve Application</title>
+    </head>
+    <style>
+        .heading {
+          background-color: rgb(196, 227, 238);
+          text-align: center;
+        }
+        .form {
+          text-align: center;
+        }
+        .error {
+          text-align: center;
+          color: red;
+          font-size: 22px;
+        }
+    </style>
+    <body bgcolor = #CAEEC4>
+        <div class = "heading">
+            <br>
+            <font color = #377CDE><h1>Approve Application</h1></font>
+            <hr color=#00008B>
+        </div>
+        
+        <div class = "form">
+            <br>
+            <form method = 'post'> 
+                {% csrf_token %}
+                <table cellpadding = 7; align = center >
+
+                    <tr valign = "middle">
+                        <!-- <td align = "right"><label for="Message">Message (if any)</label></td> -->
+                        <td align = "left">{{ form.Message }}</td>
+                        
+                    </tr>
+
+
+                </table>
+
+                <input type="submit" value="Submit"><br><br>
+                
+              </form> 
+              
+              
+        </div>
+
+        <div class = "error">
+            {% if form.errors %}
+                    <br><br>
+                    {% for field, errors in form.errors.items %}
+                        {% for error in errors %}
+                            <p><font size = 4>{{ error }}</font></p>
+                        {% endfor %}
+                    {% endfor %}
+                
+            {% endif %}
+        </div>
+
+    </body>
+</html>
