@@ -1,0 +1,384 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Register Facility</title>
+    </head>
+    <style>
+        .heading {
+          background-color: rgb(196, 227, 238);
+          text-align: center;
+        }
+        .form {
+          text-align: center;
+        }
+        .error {
+          text-align: center;
+          color: red;
+          font-size: 22px;
+        }
+    </style>
+    <body bgcolor = #CAEEC4>
+        <div class = "heading">
+            <br>
+            <font color = #377CDE><h1>Register a Common Space</h1></font>
+            <hr color=#00008B>
+        </div>
+        
+        <div class = "form">
+            <br>
+            <form method = 'post'> 
+                {% csrf_token %}
+                <table cellpadding = 7; align = center >
+                    <tr valign = "middle">
+                        <td align = "right"><label for="space_name">Space Name</label></td>
+                        <td align = "left">{{ form.space_name }}</td>
+                        <td><font color = "Red">*</font></td>
+                    </tr>
+
+                    <tr valign = "middle">
+                        <td align = "right"><label for="description">Description</label></td>
+                        <td align = "left">{{ form.description }}</td>
+                        <td><font color = "Red">*</font></td>
+                    </tr>
+
+                    <tr valign = "middle">
+                        <td align = "right"><label for="location">Location</label></td>
+                        <td align = "left">{{ form.location }}</td>
+                        <td><font color = "Red">*</font></td>
+                    </tr>
+
+                    <tr valign = "middle">
+                        <td align = "right"><label for="capacity">Capacity</label></td>
+                        <td align = "left">{{ form.capacity }}</td>
+                        <td><font color = "Red">*</font></td>
+                    </tr>
+
+                    <tr>
+                        <td align = "center" colspan = 2>
+                            <br><br><br>
+                        <p> Please add the availability of the place below.<br>
+                         For each day select if the place is available on the specific day.<br> 
+                         If the place is available, enter the opening and closing timing of the facility</p><br><br>
+                         </td>
+                    </tr>
+                    
+                    <!-- MONDAY -->
+                    <tr valign = "middle">
+                        <td align = "right"><label for="available_monday">Monday</label></td>
+                        <td align = "left">{{ form.available_monday }}</td>
+                        <td><font color = "Red"></font></td>
+                    </tr>
+
+                    
+                    <tr valign = "middle" style="text-align: center;">
+                        <td style= "text-align: center; vertical-align: middle;" colspan = 2>
+                        <div id="monday-timings" style="display: none;">
+                            <table cellpadding = 7; align = center >
+                                <tr valign = "middle">
+                                    <td align = "right"><label for="monday_start_time">Monday Start Time:</label></td>
+                                    <td align = "left">{{ form.monday_start_time }}</td>
+                                </tr>
+
+                                <tr valign = "middle">
+                                    <td align = "right"><label for="monday_end_time">Monday End Time:</label></td>
+                                    <td align = "left">{{ form.monday_end_time }}</td>
+                                </tr>
+
+                            </table>
+                            <br><br>
+                        </div>
+                        </td>
+                    </tr>
+
+
+                    <!-- TUESDAY -->
+                    <tr valign = "middle">
+                        <td align = "right"><label for="available_tuesday">Tuesday</label></td>
+                        <td align = "left">{{ form.available_tuesday }}</td>
+                        <td><font color = "Red"></font></td>
+                    </tr>
+
+                    <tr valign = "middle" style="text-align: center;">
+                        <td style= "text-align: center; vertical-align: middle;" colspan = 2>
+                        <div id="tuesday-timings" style="display: none;">
+                            <table cellpadding = 7; align = center >
+                                <tr valign = "middle">
+                                    <td align = "right"><label for="tuesday_start_time">Tuesday Start Time:</label></td>
+                                    <td align = "left">{{ form.tuesday_start_time }}</td>
+                                </tr>
+
+                                <tr valign = "middle">
+                                    <td align = "right"><label for="tuesday_end_time">Tuesday End Time:</label></td>
+                                    <td align = "left">{{ form.tuesday_end_time }}</td>
+                                </tr>
+
+                            </table>
+                            <br><br>
+                        </div>
+                        </td>
+                    </tr>
+                    
+
+
+                    <!-- WEDNESDAY -->
+                    <tr valign = "middle">
+                        <td align = "right"><label for="available_wednesday">Wednesday</label></td>
+                        <td align = "left">{{ form.available_wednesday }}</td>
+                        <td><font color = "Red"></font></td>
+                    </tr>
+
+                    <tr valign = "middle" style="text-align: center;">
+                        <td style= "text-align: center; vertical-align: middle;" colspan = 2>
+                        <div id="wednesday-timings" style="display: none;">
+                            <table cellpadding = 7; align = center >
+                                <tr valign = "middle">
+                                    <td align = "right"><label for="wednesday_start_time">Wednesday Start Time:</label></td>
+                                    <td align = "left">{{ form.wednesday_start_time }}</td>
+                                </tr>
+
+                                <tr valign = "middle">
+                                    <td align = "right"><label for="wednesday_end_time">Wednesday End Time:</label></td>
+                                    <td align = "left">{{ form.wednesday_end_time }}</td>
+                                </tr>
+
+                            </table>
+                            <br><br>
+                        </div>
+                        </td>
+                    </tr>
+
+
+                    <!-- THIRSDAY -->
+                    <tr valign = "middle">
+                        <td align = "right"><label for="available_thursday">Thursday</label></td>
+                        <td align = "left">{{ form.available_thursday }}</td>
+                        <td><font color = "Red"></font></td>
+                    </tr>
+
+                    <tr valign = "middle" style="text-align: center;">
+                        <td style= "text-align: center; vertical-align: middle;" colspan = 2>
+                        <div id="thursday-timings" style="display: none;">
+                            <table cellpadding = 7; align = center >
+                                <tr valign = "middle">
+                                    <td align = "right"><label for="thursday_start_time">Thursday Start Time:</label></td>
+                                    <td align = "left">{{ form.thursday_start_time }}</td>
+                                </tr>
+
+                                <tr valign = "middle">
+                                    <td align = "right"><label for="thursday_end_time">Thursday End Time:</label></td>
+                                    <td align = "left">{{ form.thursday_end_time }}</td>
+                                </tr>
+
+                            </table>
+                            <br><br>
+                        </div>
+                        </td>
+                    </tr>
+
+                    <!-- FRIDAY -->
+                    <tr valign = "middle">
+                        <td align = "right"><label for="available_friday">Friday</label></td>
+                        <td align = "left">{{ form.available_friday }}</td>
+                        <td><font color = "Red"></font></td>
+                    </tr>
+
+                    <tr valign = "middle" style="text-align: center;">
+                        <td style= "text-align: center; vertical-align: middle;" colspan = 2>
+                        <div id="friday-timings" style="display: none;">
+                            <table cellpadding = 7; align = center >
+                                <tr valign = "middle">
+                                    <td align = "right"><label for="friday_start_time">Friday Start Time:</label></td>
+                                    <td align = "left">{{ form.friday_start_time }}</td>
+                                </tr>
+
+                                <tr valign = "middle">
+                                    <td align = "right"><label for="friday_end_time">Friday End Time:</label></td>
+                                    <td align = "left">{{ form.friday_end_time }}</td>
+                                </tr>
+
+                            </table>
+                            <br><br>
+                        </div>
+                        </td>
+                    </tr>
+
+
+                    <!-- SATURDAY -->
+                    <tr valign = "middle">
+                        <td align = "right"><label for="available_saturday">Saturday</label></td>
+                        <td align = "left">{{ form.available_saturday }}</td>
+                        <td><font color = "Red"></font></td>
+                    </tr>
+
+                    <tr valign = "middle" style="text-align: center;">
+                        <td style= "text-align: center; vertical-align: middle;" colspan = 2>
+                        <div id="saturday-timings" style="display: none;">
+                            <table cellpadding = 7; align = center >
+                                <tr valign = "middle">
+                                    <td align = "right"><label for="saturday_start_time">Saturday Start Time:</label></td>
+                                    <td align = "left">{{ form.saturday_start_time }}</td>
+                                </tr>
+
+                                <tr valign = "middle">
+                                    <td align = "right"><label for="saturday_end_time">Saturday End Time:</label></td>
+                                    <td align = "left">{{ form.saturday_end_time }}</td>
+                                </tr>
+
+                            </table>
+                            <br><br>
+                        </div>
+                        </td>
+                    </tr>
+
+
+                    <!-- SUNDAY -->
+                    <tr valign = "middle">
+                        <td align = "right"><label for="available_sunday">Sunday</label></td>
+                        <td align = "left">{{ form.available_sunday }}</td>
+                        <td><font color = "Red"></font></td>
+                    </tr>
+
+                    <tr valign = "middle" style="text-align: center;">
+                        <td style= "text-align: center; vertical-align: middle;" colspan = 2>
+                        <div id="sunday-timings" style="display: none;">
+                            <table cellpadding = 7; align = center >
+                                <tr valign = "middle">
+                                    <td align = "right"><label for="sunday_start_time">Sunday Start Time:</label></td>
+                                    <td align = "left">{{ form.sunday_start_time }}</td>
+                                </tr>
+
+                                <tr valign = "middle">
+                                    <td align = "right"><label for="sunday_end_time">Sunday End Time:</label></td>
+                                    <td align = "left">{{ form.sunday_end_time }}</td>
+                                </tr>
+
+                            </table>
+                            <br><br>
+                        </div>
+                        </td>
+                    </tr>
+
+
+
+
+
+
+                    <tr valign = "middle">
+                        <td align = "right"><label for="ReservationRestrictions">Reservation Restrictions</label></td>
+                        <td align = "left">{{ form.ReservationRestrictions }}</td>
+                        <td><font color = "Red"></font></td>
+                    </tr>
+
+                    <tr valign = "middle">
+                        <td align = "right"><label for="AdditionalFeatures">Additional Features</label></td>
+                        <td align = "left">{{ form.AdditionalFeatures }}</td>
+                        <td><font color = "Red"></font></td>
+                    </tr>
+
+                </table>
+
+                <br>
+                <p><font color = "Red">* Required</font></p>
+                <br>
+                <br>
+
+                <input type="submit" value="Submit">
+              </form> 
+              
+              
+        </div>
+
+        <div class = "error">
+            {% if form.errors %}
+                    <br><br>
+                    {% for field, errors in form.errors.items %}
+                        {% for error in errors %}
+                            <p><font size = 4>{{ error }}</font></p>
+                        {% endfor %}
+                    {% endfor %}
+                
+            {% endif %}
+        </div>
+
+        <script>
+            const availableMondayCheckbox = document.getElementById('{{ form.available_monday.id_for_label }}');
+            const mondayTimingsDiv = document.getElementById('monday-timings');
+          
+            availableMondayCheckbox.addEventListener('change', function() {
+              if (this.checked) {
+                mondayTimingsDiv.style.display = 'block';
+              } else {
+                mondayTimingsDiv.style.display = 'none';
+              }
+            });
+
+            const availableTuesdayCheckbox = document.getElementById('{{ form.available_tuesday.id_for_label }}');
+            const tuesdayTimingsDiv = document.getElementById('tuesday-timings');
+          
+            availableTuesdayCheckbox.addEventListener('change', function() {
+              if (this.checked) {
+                tuesdayTimingsDiv.style.display = 'block';
+              } else {
+                tuesdayTimingsDiv.style.display = 'none';
+              }
+            });
+
+            const availableWednesdayCheckbox = document.getElementById('{{ form.available_wednesday.id_for_label }}');
+            const wednesdayTimingsDiv = document.getElementById('wednesday-timings');
+          
+            availableWednesdayCheckbox.addEventListener('change', function() {
+              if (this.checked) {
+                wednesdayTimingsDiv.style.display = 'block';
+              } else {
+                wednesdayTimingsDiv.style.display = 'none';
+              }
+            });
+
+            const availableThursdayCheckbox = document.getElementById('{{ form.available_thursday.id_for_label }}');
+            const thursdayTimingsDiv = document.getElementById('thursday-timings');
+          
+            availableThursdayCheckbox.addEventListener('change', function() {
+              if (this.checked) {
+                thursdayTimingsDiv.style.display = 'block';
+              } else {
+                thursdayTimingsDiv.style.display = 'none';
+              }
+            });
+
+            const availableFridayCheckbox = document.getElementById('{{ form.available_friday.id_for_label }}');
+            const fridayTimingsDiv = document.getElementById('friday-timings');
+          
+            availableFridayCheckbox.addEventListener('change', function() {
+              if (this.checked) {
+                fridayTimingsDiv.style.display = 'block';
+              } else {
+                fridayTimingsDiv.style.display = 'none';
+              }
+            });
+
+            const availableSaturdayCheckbox = document.getElementById('{{ form.available_saturday.id_for_label }}');
+            const saturdayTimingsDiv = document.getElementById('saturday-timings');
+          
+            availableSaturdayCheckbox.addEventListener('change', function() {
+              if (this.checked) {
+                saturdayTimingsDiv.style.display = 'block';
+              } else {
+                saturdayTimingsDiv.style.display = 'none';
+              }
+            });
+
+            const availableSundayCheckbox = document.getElementById('{{ form.available_sunday.id_for_label }}');
+            const sundayTimingsDiv = document.getElementById('sunday-timings');
+          
+            availableSundayCheckbox.addEventListener('change', function() {
+              if (this.checked) {
+                sundayTimingsDiv.style.display = 'block';
+              } else {
+                sundayTimingsDiv.style.display = 'none';
+              }
+            });
+
+          </script>
+    </body>
+</html>
