@@ -9,4 +9,5 @@ urlpatterns = [
     path('addcommonspace', views.addcommonspace, name = 'addcommonspace'),
     path('addcommonspacesuccess', views.addcommonspacesuccess, name = 'addcommonspacesuccess'),
     path('viewlistofcommonspaces', views.viewlistofcommonspaces, name = 'viewlistofcommonspaces'),
+    path('removecommonspace', views.removecommonspace, name = 'removecommonspace'),
 ]

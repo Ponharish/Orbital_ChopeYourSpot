@@ -223,7 +223,7 @@ def _2faLogin_view(request):
                 
     else:
         form = _2faLoginForm()
-        # print(request.session.get('OTP_generated'))
+        
         if not request.session.get('OTP_generated'):
 
             ##SEND OTP##

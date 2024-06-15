@@ -4,9 +4,10 @@ from django.http import HttpResponse
 from django.template import loader
 from login.models import registeredDomains
 from login.models import users 
-from .models import ListOfCommonSpaces
+from .models import ListOfCommonSpaces, ListOfBookings
 from django.views.decorators.cache import never_cache
 from .addcommonspaceform import addcommonspaceform
+from .removecommonspaceform import removecompanyform
 
 # Create your views here.
 
@@ -77,6 +78,10 @@ def addcommonspace(request):
             available_sunday = form.cleaned_data.get('available_sunday')
             sunday_start_time = form.cleaned_data.get('sunday_start_time')
             sunday_end_time = form.cleaned_data.get('sunday_end_time')
+
+            if not available_monday and not available_tuesday and not available_wednesday and not available_thursday and not available_friday and not available_saturday and not available_sunday:
+                form.add_error('available_monday', 'None of day is selected. Please select atleast one day')
+                return render(request, 'addcommonspace.html', {'form': form})
 
 
             if available_monday:
@@ -213,3 +218,28 @@ def viewlistofcommonspaces(request):
     spacelist = ListOfCommonSpaces.objects.filter(domain = request.session['Current_login_data']['domain'])
     is_empty = not spacelist.exists() # Check if queryset is empty
     return render(request, 'viewlistofcommonspaces.html', {'spaces': spacelist, 'is_empty': is_empty})
+
+@never_cache
+def removecommonspace(request): 
+    if request.method == 'POST':
+        form = removecompanyform(request.POST)
+        if form.is_valid():
+            placeid = form.cleaned_data.get('idfield')
+            domain = request.session['Current_login_data']['domain']
+            ##CHANGE THE BOTTOM LINE TO THE CORRECT SEARCH (and the block below as well)
+            # placelist = ListOfCommonSpaces.objects.filter(domain = domain, SpaceName = space_name)
+            # is_empty = not placelist.exists() 
+            # if not is_empty:
+            #     form.add_error('space_name', 'This place exists')
+            #     return render(request, 'addcommonspace.html', {'form': form})
+
+            
+
+            
+    else:
+        form = removecompanyform() 
+
+    return render(request, 'removecompanyform.html', {
+        'form': form
+    })    
+
