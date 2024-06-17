@@ -10,4 +10,7 @@ urlpatterns = [
     path('addcommonspacesuccess', views.addcommonspacesuccess, name = 'addcommonspacesuccess'),
     path('viewlistofcommonspaces', views.viewlistofcommonspaces, name = 'viewlistofcommonspaces'),
     path('removecommonspace', views.removecommonspace, name = 'removecommonspace'),
+    path('removecompanyconfirmation', views.removecompanyconfirmation, name = 'removecompanyconfirmation'),
+    path('removefacilitysuccess', views.removefacilitysuccess, name = 'removefacilitysuccess'),
+    
 ]

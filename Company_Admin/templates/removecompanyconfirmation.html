@@ -1,0 +1,148 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Remove Facility</title>
+        <link rel="icon" type="image/x-icon" href="{% static 'logo.png' %}">
+    </head>
+    <style>
+        .heading {
+          background-color: rgb(196, 227, 238);
+          text-align: center;
+        }
+        .content {
+          text-align: center;
+        }
+
+        
+        .error {
+          text-align: center;
+          color: red;
+          font-size: 22px;
+        }
+        .availability-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Adjust column width as needed */
+            gap: 10px; /* Adjust gap between items */
+        }
+
+        .availability-item {
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+
+        .day {
+            font-weight: bold;
+        }
+
+        .time {
+            margin-top: 5px;
+        }
+
+
+        table {
+            border-collapse: collapse;
+            margin: 0 auto; 
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border: 1px solid rgb(0, 0, 0);
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            word-break: break-all; 
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+    <body bgcolor = #CAEEC4>
+        
+        <div class = "heading">
+            <br>
+            <font color = #377CDE><h2 style="padding-left: 20px;" id = "unamefield">Confirm Removal</h2></font>
+            
+            <hr color=#00008B>
+        </div>
+
+
+        <div class = "content">
+
+            
+            <br>
+
+
+            <table border="1" id="dataTable">
+                
+                <tbody>
+                    <tr>
+                        <td><b>Place ID</b></td>
+                        <td>{{ place_details.id }}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Space Name</b></td>
+                        <td>{{ place_details.SpaceName }}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Description</b></td>
+                        <td>{{ place_details.description }}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Location</b></td>
+                        <td>{{ place_details.location }}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Capacity</b></td>
+                        <td>{{ place_details.Capacity|default:"-" }}</td>
+                    </tr>
+
+                    <tr>
+                        <td><b>Availability</b></td>
+                        <td>
+                            <div class="availability-container">
+                                {% for day, details in place_details.availability.items %}
+                                    {% if details.available %}
+                                        <div class="availability-item">
+                                            <div class="day">{{ day|capfirst }}</div>
+                                            <div class="time">{{ details.start_time }} - {{ details.end_time }}</div>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </td>
+                      
+                    </tr>
+                    <tr>
+                        <td><b>Reservation Restrictions</b></td>
+                        <td>{{ place_details.ReservationRestrictions|default:"-" }}</td>
+                    </tr>
+
+                    <tr>
+                        <td><b>Additional Features</b></td>
+                        <td>{{ place_details.AdditionalFeatures|default:"-" }}</td>
+                    </tr>
+
+                </tbody>
+            </table>
+
+            <br><br>
+
+            <p><b><font color = 'red'>Please verify the details of the location to be removed and click on submit to proceed with removal.<br>
+            Take note that once a place is removed, all future bookings will be automatically cancelled<br>
+            Please inform all affected users in your company on this matter</font></b></p>
+
+            <br><br>
+
+            <a href='removefacilitysuccess'><input type="button" id = "Submit" name = "Submit" value="Submit"></a> <br><br>
+            <a href = "removecommonspace"><input type="button" id = "Back" name = "Back" value="Back"></a> <br>
+        </div>
+
+        
+        <div class = "error">
+            <P> </P>
+        </div>
+
+    </body>
+</html>

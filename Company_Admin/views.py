@@ -225,15 +225,28 @@ def removecommonspace(request):
         form = removecompanyform(request.POST)
         if form.is_valid():
             placeid = form.cleaned_data.get('idfield')
+            ########################
+            # TEST THE BELOW LATER #
+            ########################
+
             domain = request.session['Current_login_data']['domain']
-            ##CHANGE THE BOTTOM LINE TO THE CORRECT SEARCH (and the block below as well)
-            # placelist = ListOfCommonSpaces.objects.filter(domain = domain, SpaceName = space_name)
-            # is_empty = not placelist.exists() 
-            # if not is_empty:
-            #     form.add_error('space_name', 'This place exists')
-            #     return render(request, 'addcommonspace.html', {'form': form})
+            placelist = ListOfCommonSpaces.objects.filter(id = placeid, domain = domain) 
+            is_empty = not placelist.exists() 
+            
+            if is_empty:
+                form.add_error('idfield', 'Invalid Location') 
+                return render(request, 'removecompanyform.html', {'form': form})
 
             
+            placelist = ListOfBookings.objects.filter(placeid = placeid, currentstatus = 'ongoing', domain = domain)
+            is_empty = not placelist.exists() 
+            if not is_empty:
+                form.add_error('idfield', 'There is an ongoing booking at this location. Ends this booking before removing the location') 
+                return render(request, 'removecompanyform.html', {'form': form})
+
+            #create a seassion cookie and remove it later!!
+            request.session['current_location_to_delete'] = placeid
+            return redirect('removecompanyconfirmation')
 
             
     else:
@@ -243,3 +256,37 @@ def removecommonspace(request):
         'form': form
     })    
 
+@never_cache
+def removecompanyconfirmation(request):
+    placeid = request.session.get('current_location_to_delete')
+    # request.session.pop('current_location_to_delete')
+    spacelist = ListOfCommonSpaces.objects.filter(id = placeid).last()
+    place_details = {
+        'id':placeid,
+        'domain':spacelist.domain,
+        'SpaceName':spacelist.SpaceName,
+        'description':spacelist.description,
+        'location':spacelist.location,
+        'Capacity':spacelist.Capacity,
+        'availability':spacelist.availability,
+        'ReservationRestrictions':spacelist.ReservationRestrictions,
+        'AdditionalFeatures':spacelist.AdditionalFeatures
+    }
+    return render(request, 'removecompanyconfirmation.html', {'place_details': place_details})
+
+
+@never_cache
+def removefacilitysuccess(request):
+    placeid = request.session.get('current_location_to_delete')
+    domain = request.session['Current_login_data']['domain']
+
+    placelist = ListOfCommonSpaces.objects.filter(id = placeid, domain = domain) 
+    placelist.delete()
+
+    placelistbk = ListOfBookings.objects.filter(placeid = placeid, domain = domain)
+    placelistbk.delete()
+
+
+
+    request.session.pop('current_location_to_delete')
+    return render(request, 'placeremovalsuccessmessage.html')
