@@ -1,0 +1,98 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Make a Booking</title>
+        <link rel="icon" type="image/x-icon" href="{% static 'logo.png' %}">
+    </head>
+    <style>
+        .heading {
+          background-color: rgb(196, 227, 238);
+          text-align: center;
+        }
+        .form {
+          text-align: center;
+        }
+        .error {
+          text-align: center;
+          color: red;
+          font-size: 22px;
+        }
+    </style>
+    <body bgcolor = #CAEEC4>
+        <div class = "heading">
+            <br>
+            <font color = #377CDE><h1>Make A Booking</h1></font>
+            <hr color=#00008B>
+        </div>
+        
+        <div class = "form">
+            <br>
+            <form method = 'post' id = 'bookingForm'> 
+                {% csrf_token %}
+                <table cellpadding = 7; align = center >
+                    <tr valign = "middle">
+                        <td align = "right"><label for="username">Make Booking for<br>(username)</label></td>
+                        <td align = "left">{{ form.username }}</td>
+                        <td><font color = "Red">*</font></td>
+                    </tr>
+
+                    <tr valign = "middle">
+                        <td align = "right"><label for="locationid">Location ID</label></td>
+                        <td align = "left">{{ form.placeid }}</td>
+                        <td><font color = "Red">*</font></td>
+                    </tr>
+
+                    <tr valign = "middle">
+                        <td align = "right"><label for="date">Date</label></td>
+                        <td align = "left">{{ form.booking_date }}</td>
+                        <td><font color = "Red">*</font></td>
+                    </tr>
+
+
+ 
+                    
+ 
+                    <tr valign = "middle">
+                        <td align = "right"><label for="start_time">Start Time</label></td>
+                        <td align = "left">{{ form.start_time }}</td>
+                        <td><font color = "Red">*</font></td>
+                    </tr>
+
+                    <tr valign = "middle">
+                        <td align = "right"><label for="end_time">End Time</label></td>
+                        <td align = "left">{{ form.end_time }}</td>
+                        <td><font color = "Red">*</font></td>
+                    </tr>
+
+
+                </table>
+
+                <br>
+                <p><font color = "Red">* Required</font></p>
+                <br>
+                <br>
+
+                <input type="submit" value="Submit" id="submitButton"><br><br>
+                <a href = "./"><input type="button" id = "Back" name = "Back" value="Back"></a> <br>
+              </form> 
+              
+              
+        </div>
+
+        <div class = "error">
+            {% if form.errors %}
+                    <br><br>
+                    {% for field, errors in form.errors.items %}
+                        {% for error in errors %}
+                            <p><font size = 4>{{ error }}</font></p>
+                        {% endfor %}
+                    {% endfor %}
+                
+            {% endif %}
+        </div>
+
+    
+       
+    </body>
+</html>

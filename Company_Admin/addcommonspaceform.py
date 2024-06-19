@@ -6,13 +6,6 @@ from .models import ListOfCommonSpaces
 
 
 class addcommonspaceform(forms.Form):
-    # domain = forms.CharField(
-    #     max_length=30, 
-    #     label="Domain", 
-    #     required=True,
-    #     widget=forms.TextInput(attrs={'placeholder': '@abc'})
-    # )
-
     space_name = forms.CharField(
         max_length=30, 
         label="Space Name", 

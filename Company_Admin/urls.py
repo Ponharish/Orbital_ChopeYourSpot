@@ -12,5 +12,7 @@ urlpatterns = [
     path('removecommonspace', views.removecommonspace, name = 'removecommonspace'),
     path('removecompanyconfirmation', views.removecompanyconfirmation, name = 'removecompanyconfirmation'),
     path('removefacilitysuccess', views.removefacilitysuccess, name = 'removefacilitysuccess'),
-    
+    path('makeabookingadm', views.makeabookingadm, name = 'makeabookingadm'),
+    path('makeabookingadmsuccess', views.makeabookingadmsuccess, name = 'makeabookingadmsuccess'),
+    path('makeabookingadmconfirm', views.makeabookingadmconfirm, name = 'makeabookingadmconfirm'),
 ]

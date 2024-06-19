@@ -2,12 +2,14 @@ from django.shortcuts import render
 from django.shortcuts import redirect
 from django.http import HttpResponse
 from django.template import loader
+from datetime import datetime, date, timedelta
 from login.models import registeredDomains
 from login.models import users 
 from .models import ListOfCommonSpaces, ListOfBookings
 from django.views.decorators.cache import never_cache
 from .addcommonspaceform import addcommonspaceform
 from .removecommonspaceform import removecompanyform
+from .makeabookingform import makeabookingform
 
 # Create your views here.
 
@@ -238,7 +240,7 @@ def removecommonspace(request):
                 return render(request, 'removecompanyform.html', {'form': form})
 
             
-            placelist = ListOfBookings.objects.filter(placeid = placeid, currentstatus = 'ongoing', domain = domain)
+            placelist = ListOfBookings.objects.filter(placeid = placeid, currentstatus = 'Ongoing', domain = domain)
             is_empty = not placelist.exists() 
             if not is_empty:
                 form.add_error('idfield', 'There is an ongoing booking at this location. Ends this booking before removing the location') 
@@ -290,3 +292,181 @@ def removefacilitysuccess(request):
 
     request.session.pop('current_location_to_delete')
     return render(request, 'placeremovalsuccessmessage.html')
+
+@never_cache
+def makeabookingadm(request):
+    if request.method == 'POST':
+        form = makeabookingform(request.POST)
+        if form.is_valid():
+            placeid = form.cleaned_data.get('placeid')
+            username = form.cleaned_data.get('username')
+            booking_date = form.cleaned_data.get('booking_date')
+            start_time = form.cleaned_data.get('start_time')
+            end_time = form.cleaned_data.get('end_time')
+            domain = request.session['Current_login_data']['domain']
+
+            print('*DATA*')
+            print(placeid)
+            print(username)
+            print(booking_date)
+            print(start_time)
+            print(end_time)
+            print(domain)
+
+
+            #Check user
+            userfor = users.objects.filter(username = username, domain = domain) 
+            is_empty = not userfor.exists() 
+            
+            if is_empty:
+                form.add_error('username', 'Invalid Username') 
+                return render(request, 'makeabooking.html', {'form': form})
+
+            #check if past date is inputted
+            if booking_date < datetime.today().date():
+                form.add_error('booking_date', 'Booking date cannot be in the past') 
+                return render(request, 'makeabooking.html', {'form': form})
+            
+
+            ##################################
+            # MILESTONE 3 - CONFIGURE TIME   #
+            # make sure that the time is in  #
+            # sync with the company timezone #
+            # if booking time is in the past #
+            # raise error                    #
+            ##################################
+            #Default timezone provided is singapore
+
+            # formatted_date = booking_date.strftime('%m/%d/%Y')
+            day_of_week = booking_date.strftime('%A') 
+            today = date.today()
+            
+            #Check if such a place exists
+            placeavailability = ListOfCommonSpaces.objects.filter(id = placeid, domain = domain)
+            is_empty = not placeavailability.exists() 
+            
+            if is_empty:
+                form.add_error('placeid', 'Invalid Location') 
+                return render(request, 'makeabooking.html', {'form': form})
+
+            #Make sure booking can only be done 50 days in advance
+            max_booking_date = today + timedelta(days=50)
+
+            if booking_date > max_booking_date:
+                form.add_error('booking_date', "Bookings can only be made up to 50 days in advance")
+                return render(request, 'makeabooking.html', {'form': form})
+
+            #Handle case where start time is given to be after end time
+            if start_time >= end_time:
+                form.add_error('start_time', 'Invalid timing entered. End time is before Start time.')
+                return render(request, 'makeabooking.html', {'form': form})
+            
+            #if booking for today, make sure no past booking is made
+            if booking_date == datetime.today().date():
+                current_time = datetime.now().time()
+                if start_time < current_time or end_time < current_time:
+                    form.add_error('start_time', 'Invalid timing entered. Start or End time is before current time')
+                    return render(request, 'makeabooking.html', {'form': form})
+
+            
+            
+            place = placeavailability.first()
+            placeavail = place.availability
+
+            #Check if the place is available on given day
+            if not (placeavail.get(day_of_week.lower())).get('available'):
+                form.add_error('booking_date', 'Place is not available in the specified date') 
+                return render(request, 'makeabooking.html', {'form': form})
+
+
+            start_time_ck = datetime.strptime((placeavail.get(day_of_week.lower())).get('start_time'), '%I:%M %p').time()
+            end_time_ck = datetime.strptime((placeavail.get(day_of_week.lower())).get('end_time'), '%I:%M %p').time()
+            if start_time_ck > start_time:
+                form.add_error('start_time', 'Place is not available in the specified start time') 
+                return render(request, 'makeabooking.html', {'form': form})
+            
+            if end_time_ck < end_time:
+                form.add_error('start_time', 'Place is not available in the specified end time') 
+                return render(request, 'makeabooking.html', {'form': form})
+            
+
+            bookinghistory = ListOfBookings.objects.filter(id = placeid, domain = domain, bookingdate = booking_date)
+
+            for booking in bookinghistory:
+                existing_start_time = booking.starttime
+                existing_end_time = booking.endtime
+
+                if (existing_start_time <= start_time < existing_end_time) or (existing_start_time < end_time <= existing_end_time) or (start_time <= existing_start_time and end_time >= existing_end_time):
+                    form.add_error('start_time', 'The booking overlaps with an existing booking.')
+                    return render(request, 'makeabooking.html', {'form': form})
+            
+            currentbookingdetails = {
+                'placeid' : placeid,
+                'username' : username,
+                'booking_date' : booking_date.strftime('%Y-%m-%d'),
+                'bookingday' : day_of_week,
+                'start_time': start_time.strftime('%H:%M:%S'),
+                'end_time': end_time.strftime('%H:%M:%S'),
+                'domain' : domain
+            }
+
+            request.session['current_booking_detail'] = currentbookingdetails
+            return redirect('makeabookingadmconfirm')
+            
+    else:
+        form = makeabookingform() 
+
+    return render(request, 'makeabooking.html', {
+        'form': form
+    })    
+
+@never_cache
+def makeabookingadmconfirm(request):
+    currentbookingdetails = request.session.get('current_booking_detail')
+    return render(request, 'confirmbookgingmade.html', {'booking_details': currentbookingdetails})
+
+
+    
+@never_cache
+def makeabookingadmsuccess(request):
+    currentbookingdetails = request.session.get('current_booking_detail')
+    #SAVE TO DB
+    # placeid = request.session.get('current_location_to_delete')
+    # domain = request.session['Current_login_data']['domain']
+
+    # placelist = ListOfCommonSpaces.objects.filter(id = placeid, domain = domain) 
+    # placelist.delete()
+
+    # placelistbk = ListOfBookings.objects.filter(placeid = placeid, domain = domain)
+    # placelistbk.delete()
+
+
+    #DESERIALISING TIME FROM REQUEST.SESSION
+    currentbookingdetails = request.session.get('current_booking_detail')
+    start_time = datetime.strptime(currentbookingdetails['start_time'], '%H:%M:%S').time()
+    end_time = datetime.strptime(currentbookingdetails['end_time'], '%H:%M:%S').time()
+    booking_date = datetime.strptime(currentbookingdetails['booking_date'], '%Y-%m-%d').date()
+    placeid = currentbookingdetails['placeid']
+    username = currentbookingdetails['username']
+    bookingday = currentbookingdetails['bookingday']
+    domain = currentbookingdetails['domain']
+    currentstatus = 'Scheduled'
+
+    spacedet = ListOfBookings(
+                            placeid = placeid, 
+                            domain = domain, 
+                            username = username, 
+                            bookingdate = booking_date, 
+                            bookingday = bookingday, 
+                            starttime = start_time, 
+                            endtime = end_time,
+                            currentstatus = currentstatus
+                            )
+    spacedet.save()
+
+    request.session.pop('current_booking_detail')
+    return render(request, 'bookingsuccessadm.html')
+
+
+
+    
