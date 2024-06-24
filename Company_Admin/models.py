@@ -14,6 +14,7 @@ class ListOfCommonSpaces(models.Model):
 
 
 class ListOfBookings(models.Model):
+    #BOOKING ID - ID (default)
     placeid = models.IntegerField()
     domain = models.CharField(max_length=30)
     username = models.CharField(max_length=30)
@@ -24,6 +25,7 @@ class ListOfBookings(models.Model):
     currentstatus = models.CharField(max_length=30) #scheduled, ongoing, cancelled (ideally must be removed)
     
 class ListOfPastBookings(models.Model):
+    bookingid = models.IntegerField()
     placeid = models.IntegerField()
     domain = models.CharField(max_length=30)
     username = models.CharField(max_length=30)
@@ -33,7 +35,16 @@ class ListOfPastBookings(models.Model):
     endtime = models.TimeField()
     currentstatus = models.CharField(max_length=30) #completed, cancelled 
     
-        
+    #########################################
+    #                                       #
+    # Status can be one of the following    #
+    #                                       #
+    # * Scheduled                           #
+    # * Ongoing                             #
+    # * Completed                           #
+    # * Cancelled                           #
+    #                                       #
+    #########################################
 
 class CompanyInfo(models.Model):
     domain = models.CharField(max_length=30)

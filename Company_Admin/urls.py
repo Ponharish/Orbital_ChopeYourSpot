@@ -15,4 +15,8 @@ urlpatterns = [
     path('makeabookingadm', views.makeabookingadm, name = 'makeabookingadm'),
     path('makeabookingadmsuccess', views.makeabookingadmsuccess, name = 'makeabookingadmsuccess'),
     path('makeabookingadmconfirm', views.makeabookingadmconfirm, name = 'makeabookingadmconfirm'),
+    path('viewbookings', views.viewbookings, name = 'viewbookings'),
+    path('cancelBooking', views.cancelBooking, name = 'cancelBooking'),
+    path('cancelBookingConfirmation', views.cancelBookingConfirmation, name = 'cancelBookingConfirmation'),
+    path('cancelBookingSuccess', views.cancelBookingSuccess, name = 'cancelBookingSuccess'),
 ]

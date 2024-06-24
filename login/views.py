@@ -74,6 +74,9 @@ def login_view(request):
         if form.is_valid():
             
             if form.cleaned_data['captcha'] == correct_captcha:
+
+                
+                
                 user = users.objects.get(username=form.cleaned_data.get('username').strip(), domain = form.cleaned_data.get('domain').strip())
                 Current_login_data = {
                     'first_name' : user.first_name, 
@@ -242,6 +245,8 @@ def _2faLogin_view(request):
                 body = msg
                 msg = f'Subject: {subject}\n\n{body}'
                 smtp.sendmail('chopeyourspot@gmail.com',email,msg)
+                #REMOVE LATER - ADDED TO WORK WITH NO INTERNET
+            print(correct_OTP)
             ##     ###
 
             request.session['correct_OTP'] = correct_OTP

@@ -5,11 +5,12 @@ from django.template import loader
 from datetime import datetime, date, timedelta
 from login.models import registeredDomains
 from login.models import users 
-from .models import ListOfCommonSpaces, ListOfBookings
+from .models import ListOfCommonSpaces, ListOfBookings, ListOfPastBookings
 from django.views.decorators.cache import never_cache
 from .addcommonspaceform import addcommonspaceform
 from .removecommonspaceform import removecompanyform
 from .makeabookingform import makeabookingform
+from .cancelBookingForm import cancelbookingform
 
 # Create your views here.
 
@@ -468,5 +469,111 @@ def makeabookingadmsuccess(request):
     return render(request, 'bookingsuccessadm.html')
 
 
+@never_cache
+def viewbookings(request):
+    bookings = ListOfBookings.objects.filter(domain = request.session['Current_login_data']['domain'])
+    is_empty = not bookings.exists() # Check if queryset is empty
+    return render(request, 'ViewBookings.html', {'bookings': bookings, 'is_empty': is_empty})
 
-    
+@never_cache
+def cancelBooking(request):
+    if request.method == 'POST':
+        form = cancelbookingform(request.POST)
+        if form.is_valid():
+            bookingid = form.cleaned_data.get('idfield')
+
+
+            domain = request.session['Current_login_data']['domain']
+            placelist = ListOfBookings.objects.filter(id = bookingid, domain = domain) 
+            is_empty = not placelist.exists() 
+            
+            if is_empty:
+                form.add_error('idfield', 'Invalid Booking ID') 
+                return render(request, 'cancelBookingForm.html', {'form': form})
+
+            ########################
+            # TEST THE BELOW LATER #
+            ########################
+            
+            placelist = ListOfBookings.objects.filter(id = bookingid, currentstatus = 'Scheduled', domain = domain)
+            is_empty = not placelist.exists() 
+            if is_empty:
+                form.add_error('idfield', 'The booking cannot be cancelled at the moment. Please Make') 
+                return render(request, 'cancelBookingForm.html', {'form': form})
+            
+
+            #create a seassion cookie and remove it later!!
+            request.session['current_booking_to_delete'] = bookingid
+            return redirect('cancelBookingConfirmation')
+
+            
+    else:
+        form = cancelbookingform() 
+
+    return render(request, 'cancelBookingForm.html', {
+        'form': form
+    }) 
+
+
+@never_cache
+def cancelBookingConfirmation(request):
+    bookingid = request.session.get('current_booking_to_delete')
+    spacelist = ListOfBookings.objects.filter(id = bookingid).last()
+    place_details = {
+        'id':bookingid,
+        'placeid':spacelist.placeid,
+        'username':spacelist.username,
+
+        'bookingdate':spacelist.bookingdate,
+        'bookingday':spacelist.bookingday,
+        'starttime':spacelist.starttime,
+        'endtime':spacelist.endtime,
+    }
+    return render(request, 'cancelbookingconfirmation.html', {'place_details': place_details})
+
+
+#IN THE NEXT PAGE, REMOVE THE LOCATION FROM THE TABLE LIST OF BOOKINGS AND ADD IT TO THE TABLE LIST OF PAST BOOKINGS
+
+@never_cache
+def cancelBookingSuccess(request):
+    bookingid = request.session.get('current_booking_to_delete')
+    domain = request.session['Current_login_data']['domain']
+    placelistbk = ListOfBookings.objects.filter(id = bookingid).last()
+
+    spacedet = ListOfPastBookings(
+                                bookingid = bookingid,
+                                placeid = placelistbk.placeid, 
+                                domain = placelistbk.domain, 
+                                username = placelistbk.username,
+                                bookingdate = placelistbk.bookingdate,
+                                bookingday = placelistbk.bookingday,
+                                starttime = placelistbk.starttime,
+                                endtime = placelistbk.endtime,
+                                currentstatus = 'Cancelled'
+                                )
+    spacedet.save()
+
+    placelistbk.delete()
+
+
+
+
+
+    request.session.pop('current_booking_to_delete')
+    return render(request, 'cancelbookingsuccessmessage.html')
+
+
+# BUGS FOUND
+# Everything is working fine. the database is retrieved and updated successfully 
+# but then some error messages are being printed at random. 
+# problem - it is trying to access current_booking_to_delete from session variable but then it is being returned as None
+# probable cause - multiple head request - causing the program to run over and over again
+# Probable fix - try to enclode everything in if request == get and see what happend
+
+
+#Another bug
+#When the project is loaded in safari, the logo is wrong
+#Probanle cause - some data is being cached and not deleted properly
+
+#Also when making a booking using safari, it says that '<' comparision is not allowed
+#Chatgpt the cause
