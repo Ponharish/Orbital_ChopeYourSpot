@@ -245,9 +245,7 @@ def _2faLogin_view(request):
                 body = msg
                 msg = f'Subject: {subject}\n\n{body}'
                 smtp.sendmail('chopeyourspot@gmail.com',email,msg)
-                #REMOVE LATER - ADDED TO WORK WITH NO INTERNET
-            print(correct_OTP)
-            ##     ###
+
 
             request.session['correct_OTP'] = correct_OTP
             request.session['OTP_generated'] = True

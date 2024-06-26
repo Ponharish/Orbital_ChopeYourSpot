@@ -389,13 +389,14 @@ def makeabookingadm(request):
             if end_time_ck < end_time:
                 form.add_error('start_time', 'Place is not available in the specified end time') 
                 return render(request, 'makeabooking.html', {'form': form})
-            
-
-            bookinghistory = ListOfBookings.objects.filter(id = placeid, domain = domain, bookingdate = booking_date)
-
+  
+            bookinghistory = ListOfBookings.objects.filter(placeid = placeid, domain = domain, bookingdate = booking_date)
+            print('test')
+            print(bookinghistory)
             for booking in bookinghistory:
                 existing_start_time = booking.starttime
                 existing_end_time = booking.endtime
+                
 
                 if (existing_start_time <= start_time < existing_end_time) or (existing_start_time < end_time <= existing_end_time) or (start_time <= existing_start_time and end_time >= existing_end_time):
                     form.add_error('start_time', 'The booking overlaps with an existing booking.')
@@ -443,29 +444,30 @@ def makeabookingadmsuccess(request):
 
 
     #DESERIALISING TIME FROM REQUEST.SESSION
-    currentbookingdetails = request.session.get('current_booking_detail')
-    start_time = datetime.strptime(currentbookingdetails['start_time'], '%H:%M:%S').time()
-    end_time = datetime.strptime(currentbookingdetails['end_time'], '%H:%M:%S').time()
-    booking_date = datetime.strptime(currentbookingdetails['booking_date'], '%Y-%m-%d').date()
-    placeid = currentbookingdetails['placeid']
-    username = currentbookingdetails['username']
-    bookingday = currentbookingdetails['bookingday']
-    domain = currentbookingdetails['domain']
-    currentstatus = 'Scheduled'
+    if request.method =='GET':
+        currentbookingdetails = request.session.get('current_booking_detail')
+        start_time = datetime.strptime(currentbookingdetails['start_time'], '%H:%M:%S').time()
+        end_time = datetime.strptime(currentbookingdetails['end_time'], '%H:%M:%S').time()
+        booking_date = datetime.strptime(currentbookingdetails['booking_date'], '%Y-%m-%d').date()
+        placeid = currentbookingdetails['placeid']
+        username = currentbookingdetails['username']
+        bookingday = currentbookingdetails['bookingday']
+        domain = currentbookingdetails['domain']
+        currentstatus = 'Scheduled'
 
-    spacedet = ListOfBookings(
-                            placeid = placeid, 
-                            domain = domain, 
-                            username = username, 
-                            bookingdate = booking_date, 
-                            bookingday = bookingday, 
-                            starttime = start_time, 
-                            endtime = end_time,
-                            currentstatus = currentstatus
-                            )
-    spacedet.save()
+        spacedet = ListOfBookings(
+                                placeid = placeid, 
+                                domain = domain, 
+                                username = username, 
+                                bookingdate = booking_date, 
+                                bookingday = bookingday, 
+                                starttime = start_time, 
+                                endtime = end_time,
+                                currentstatus = currentstatus
+                                )
+        spacedet.save()
 
-    request.session.pop('current_booking_detail')
+        request.session.pop('current_booking_detail')
     return render(request, 'bookingsuccessadm.html')
 
 
@@ -498,7 +500,7 @@ def cancelBooking(request):
             placelist = ListOfBookings.objects.filter(id = bookingid, currentstatus = 'Scheduled', domain = domain)
             is_empty = not placelist.exists() 
             if is_empty:
-                form.add_error('idfield', 'The booking cannot be cancelled at the moment. Please Make') 
+                form.add_error('idfield', 'The booking cannot be cancelled at the moment. Please verify the status of the session') 
                 return render(request, 'cancelBookingForm.html', {'form': form})
             
 
@@ -536,30 +538,31 @@ def cancelBookingConfirmation(request):
 
 @never_cache
 def cancelBookingSuccess(request):
-    bookingid = request.session.get('current_booking_to_delete')
-    domain = request.session['Current_login_data']['domain']
-    placelistbk = ListOfBookings.objects.filter(id = bookingid).last()
+    if request.method =='GET':
+        bookingid = request.session.get('current_booking_to_delete')
+        domain = request.session['Current_login_data']['domain']
+        placelistbk = ListOfBookings.objects.filter(id = bookingid).last()
 
-    spacedet = ListOfPastBookings(
-                                bookingid = bookingid,
-                                placeid = placelistbk.placeid, 
-                                domain = placelistbk.domain, 
-                                username = placelistbk.username,
-                                bookingdate = placelistbk.bookingdate,
-                                bookingday = placelistbk.bookingday,
-                                starttime = placelistbk.starttime,
-                                endtime = placelistbk.endtime,
-                                currentstatus = 'Cancelled'
-                                )
-    spacedet.save()
+        spacedet = ListOfPastBookings(
+                                    bookingid = bookingid,
+                                    placeid = placelistbk.placeid, 
+                                    domain = placelistbk.domain, 
+                                    username = placelistbk.username,
+                                    bookingdate = placelistbk.bookingdate,
+                                    bookingday = placelistbk.bookingday,
+                                    starttime = placelistbk.starttime,
+                                    endtime = placelistbk.endtime,
+                                    currentstatus = 'Cancelled'
+                                    )
+        spacedet.save()
 
-    placelistbk.delete()
-
-
-
+        placelistbk.delete()
 
 
-    request.session.pop('current_booking_to_delete')
+
+
+
+        request.session.pop('current_booking_to_delete')
     return render(request, 'cancelbookingsuccessmessage.html')
 
 
@@ -575,5 +578,5 @@ def cancelBookingSuccess(request):
 #When the project is loaded in safari, the logo is wrong
 #Probanle cause - some data is being cached and not deleted properly
 
-#Also when making a booking using safari, it says that '<' comparision is not allowed
+#Also when making a booking using safari, it says that '<' comparision is not allowed - CHECK THIS OUT
 #Chatgpt the cause

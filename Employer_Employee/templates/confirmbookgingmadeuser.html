@@ -1,0 +1,126 @@
+{% load static %}
+{% load humanize %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Confirm Booking</title>
+        <link rel="icon" type="image/x-icon" href="{% static 'logo.png' %}">
+    </head>
+    <style>
+        .heading {
+          background-color: rgb(196, 227, 238);
+          text-align: center;
+        }
+        .content {
+          text-align: center;
+        }
+
+        
+        .error {
+          text-align: center;
+          color: red;
+          font-size: 22px;
+        }
+        .availability-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); 
+            gap: 10px; 
+        }
+
+        .availability-item {
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+
+        .day {
+            font-weight: bold;
+        }
+
+        .time {
+            margin-top: 5px;
+        }
+
+
+        table {
+            border-collapse: collapse;
+            margin: 0 auto; 
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border: 1px solid rgb(0, 0, 0);
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            word-break: break-all; 
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+    <body bgcolor = #CAEEC4>
+        
+        <div class = "heading">
+            <br>
+            <font color = #377CDE><h2 style="padding-left: 20px;" id = "unamefield">Confirm Booking</h2></font>
+            
+            <hr color=#00008B>
+        </div>
+
+
+        <div class = "content">
+
+            
+            <br>
+
+
+            <table border="1" id="dataTable">
+                
+                <tbody>
+                    <tr>
+                        <td><b>Booking made for <br> (Username)</b></td>
+                        <td>{{ booking_details.username }}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Place ID</b></td>
+                        <td>{{ booking_details.placeid }}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Date</b></td>
+                        <td>{{ booking_details.booking_date }}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Day</b></td>
+                        <td>{{ booking_details.bookingday }}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Start Time</b></td>
+                        <td>{{ booking_details.start_time }}</td>
+                    </tr>
+                    <tr>
+                        <td><b>End Time</b></td>
+                        <td>{{ booking_details.end_time }}</td>
+                    </tr>
+
+
+                </tbody>
+            </table>
+
+            <br><br>
+
+            <p><b><font color = 'red'>Please verify the details above click on submit to proceed with Booking<br></font></b></p>
+
+            <br><br>
+
+            <a href='makeabookingusersuccess'><input type="button" id = "Submit" name = "Submit" value="Submit"></a> <br><br>
+            <a href = "makeabookinguser"><input type="button" id = "Back" name = "Back" value="Back"></a> <br>
+        </div>
+
+        
+        <div class = "error">
+            <P> </P>
+        </div>
+
+    </body>
+</html>
