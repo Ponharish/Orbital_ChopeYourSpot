@@ -22,7 +22,7 @@ class makeabookingform(forms.Form):
         widget=DateInput(attrs={'type': 'date'})
     )
 
-    start_time = forms.TimeField(required=False, widget=forms.TimeInput(attrs={'type': 'time', 'step': '1800'}))
+    start_time = forms.TimeField(required=False, widget=forms.TimeInput(attrs={'type': 'time'})) #, 'step': '1800'
     
-    end_time = forms.TimeField(required=False, widget=forms.TimeInput(attrs={'type': 'time', 'step': '1800'}))
+    end_time = forms.TimeField(required=False, widget=forms.TimeInput(attrs={'type': 'time'})) #, 'step': '1800'
 

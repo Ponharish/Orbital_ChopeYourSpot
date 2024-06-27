@@ -7,6 +7,8 @@ from Company_Admin.models import ListOfCommonSpaces, ListOfBookings, ListOfPastB
 from django.views.decorators.cache import never_cache
 from .makeabookingform import makeabookingform
 from .cancelBookingForm import cancelbookingform
+from .startsessionform import startsessionform
+from .endsessionform import endsessionform
 from datetime import datetime, date, timedelta
 
 # Create your views here.
@@ -90,8 +92,8 @@ def makeabookinguser(request):
             #if booking for today, make sure no past booking is made
             if booking_date == datetime.today().date():
                 current_time = datetime.now().time()
-                if start_time < current_time or end_time < current_time:
-                    form.add_error('start_time', 'Invalid timing entered. Start or End time is before current time')
+                if start_time < current_time:# or end_time < current_time:
+                    form.add_error('start_time', 'Invalid timing entered. Start time is before current time')
                     return render(request, 'makeabookinguser.html', {'form': form})
 
             
@@ -264,3 +266,162 @@ def cancelBookingSuccessuser(request):
 
         request.session.pop('current_booking_to_delete')
     return render(request, 'cancelbookingsuccessmessageuser.html')
+
+@never_cache
+def startsession(request):
+    if request.method == 'POST':
+        form = startsessionform(request.POST)
+        if form.is_valid():
+            bookingid = form.cleaned_data.get('idfield')
+
+
+            domain = request.session['Current_login_data']['domain']
+            username = request.session['Current_login_data']['username']
+            placelist = ListOfBookings.objects.filter(id = bookingid, domain = domain, username=username) 
+            is_empty = not placelist.exists() 
+            
+            if is_empty:
+                form.add_error('idfield', 'Invalid Booking ID') 
+                return render(request, 'startSession.html', {'form': form})
+            
+            placelist = ListOfBookings.objects.filter(id = bookingid, currentstatus = 'Scheduled', domain = domain)
+            is_empty = not placelist.exists() 
+            if is_empty:
+                form.add_error('idfield', 'The booking you have selected is currently ongoing or has been cancelled') 
+                return render(request, 'startSession.html', {'form': form})
+            placelist = ListOfBookings.objects.filter(id = bookingid, currentstatus = 'Scheduled', domain = domain).last()
+            start_datetime = datetime.combine(datetime.today(), placelist.starttime)
+            end_datetime = datetime.combine(datetime.today(), placelist.endtime)
+            if not (start_datetime <= datetime.now() <= end_datetime):
+                    form.add_error('idfield', 'Please start session within the time frame for your booking')
+                    return render(request, 'startSession.html', {'form': form})
+            
+            #create a seassion cookie and remove it later!!
+            request.session['current_booking_to_start'] = bookingid
+            return redirect('startSessionconfirmation')
+
+            
+    else:
+        form = cancelbookingform() 
+
+    return render(request, 'startSession.html', {
+        'form': form
+    }) 
+
+@never_cache
+def startSessionconfirmation(request):
+    bookingid = request.session.get('current_booking_to_start')
+    spacelist = ListOfBookings.objects.filter(id = bookingid).last()
+    place_details = {
+        'id':bookingid,
+        'placeid':spacelist.placeid,
+        'username':spacelist.username,
+
+        'bookingdate':spacelist.bookingdate,
+        'bookingday':spacelist.bookingday,
+        'starttime':spacelist.starttime,
+        'endtime':spacelist.endtime,
+    }
+    return render(request, 'startSessionConfirmation.html', {'place_details': place_details})
+
+
+@never_cache
+def startsessionsuccess(request):
+    if request.method =='GET':
+        bookingid = request.session.get('current_booking_to_start')
+        domain = request.session['Current_login_data']['domain']
+        placelistbk = ListOfBookings.objects.filter(id = bookingid).last()
+        placelistbk.currentstatus = 'Ongoing'
+
+
+        
+
+        placelistbk.save()
+        request.session.pop('current_booking_to_start')
+    return render(request, 'startsessionsuccess.html')
+
+
+
+@never_cache
+def endsession(request):
+    if request.method == 'POST':
+        form = endsessionform(request.POST)
+        if form.is_valid():
+            bookingid = form.cleaned_data.get('idfield')
+
+
+            domain = request.session['Current_login_data']['domain']
+            username = request.session['Current_login_data']['username']
+            placelist = ListOfBookings.objects.filter(id = bookingid, domain = domain, username=username) 
+            is_empty = not placelist.exists() 
+            
+            if is_empty:
+                form.add_error('idfield', 'Invalid Booking ID') 
+                return render(request, 'endSession.html', {'form': form})
+            
+            placelist = ListOfBookings.objects.filter(id = bookingid, currentstatus = 'Ongoing', domain = domain)
+            is_empty = not placelist.exists() 
+            if is_empty:
+                form.add_error('idfield', 'The session not currently active') 
+                return render(request, 'endSession.html', {'form': form})
+            
+
+            #create a seassion cookie and remove it later!!
+            request.session['current_booking_to_end'] = bookingid
+            return redirect('endSessionconfirmation')
+
+            
+    else:
+        form = cancelbookingform() 
+
+    return render(request, 'endSession.html', {
+        'form': form
+    }) 
+
+@never_cache
+def endSessionconfirmation(request):
+    bookingid = request.session.get('current_booking_to_end')
+    spacelist = ListOfBookings.objects.filter(id = bookingid).last()
+    start_datetime = datetime.combine(datetime.today(), spacelist.starttime)
+    time_difference = datetime.now() - start_datetime
+    duration = datetime(1, 1, 1) + time_difference
+    formatted_duration = duration.strftime('%H hours and %M minutes')
+
+    place_details = {
+        'id':bookingid,
+        'placeid':spacelist.placeid,
+        'username':spacelist.username,
+
+        'bookingdate':spacelist.bookingdate,
+        'bookingday':spacelist.bookingday,
+        'starttime':spacelist.starttime,
+        'endtime':spacelist.endtime,
+        'timelapsed': formatted_duration
+    }
+    return render(request, 'endSessionConfirmation.html', {'place_details': place_details})
+
+
+@never_cache
+def endsessionsuccess(request):
+    if request.method =='GET':
+        bookingid = request.session.get('current_booking_to_end')
+        domain = request.session['Current_login_data']['domain']
+        placelistbk = ListOfBookings.objects.filter(id = bookingid).last()
+        
+        spacedet = ListOfPastBookings(
+                                    bookingid = bookingid,
+                                    placeid = placelistbk.placeid, 
+                                    domain = placelistbk.domain, 
+                                    username = placelistbk.username,
+                                    bookingdate = placelistbk.bookingdate,
+                                    bookingday = placelistbk.bookingday,
+                                    starttime = placelistbk.starttime,
+                                    endtime = placelistbk.endtime,
+                                    currentstatus = 'Completed'
+                                    )
+        spacedet.save()
+
+        placelistbk.delete()
+        request.session.pop('current_booking_to_end')
+    return render(request, 'endsessionsuccess.html')
+

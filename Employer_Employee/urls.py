@@ -13,4 +13,11 @@ urlpatterns = [
     path('cancelBookinguser', views.cancelBookinguser, name = 'cancelBookinguser'),
     path('cancelBookingConfirmationuser', views.cancelBookingConfirmationuser, name = 'cancelBookingConfirmationuser'),
     path('cancelBookingSuccessuser', views.cancelBookingSuccessuser, name = 'cancelBookingSuccessuser'),
+    path('startsession', views.startsession, name = 'startsession'),
+    path('startSessionconfirmation', views.startSessionconfirmation, name = 'startSessionconfirmation'),
+    path('startsessionsuccess', views.startsessionsuccess, name = 'startsessionsuccess'),
+    path('endsession', views.endsession, name = 'endsession'),
+    path('endSessionconfirmation', views.endSessionconfirmation, name = 'endSessionconfirmation'),
+    path('endsessionsuccess', views.endsessionsuccess, name = 'endsessionsuccess'),
+    
 ]

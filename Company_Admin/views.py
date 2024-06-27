@@ -365,8 +365,8 @@ def makeabookingadm(request):
             #if booking for today, make sure no past booking is made
             if booking_date == datetime.today().date():
                 current_time = datetime.now().time()
-                if start_time < current_time or end_time < current_time:
-                    form.add_error('start_time', 'Invalid timing entered. Start or End time is before current time')
+                if start_time < current_time: #or end_time < current_time:
+                    form.add_error('start_time', 'Invalid timing entered. Start time is before current time')
                     return render(request, 'makeabooking.html', {'form': form})
 
             
