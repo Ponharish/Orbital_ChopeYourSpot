@@ -1,0 +1,138 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>About Us</title>
+        <link rel="icon" type="image/x-icon" href="{% static 'logo.png' %}">
+    </head>
+    <style>
+        .heading {
+          background-color: rgb(196, 227, 238);
+          text-align: center;
+        }
+        .form {
+          text-align: center;
+        }
+        .back {
+          text-align: center;
+          font-size: 22px;
+        }
+        
+        .content {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #CAEEC4;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .content h2{
+            color: rgb(43 , 74, 119);
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 10px;
+        }
+
+        .content h4 {
+            color: rgb(107 , 179, 221);
+            
+            padding-bottom: 10px;
+        }
+
+        .content p {
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .content pre {
+            font-family: "Courier New", Courier, monospace;
+            
+            padding: 10px;
+            
+            border-radius: 4px;
+        }
+
+        .content h4 {
+            margin-top: 20px;
+        }
+
+        @media (max-width: 600px) {
+            .content {
+                padding: 15px;
+            }
+
+            .content h2, .content h4 {
+                font-size: 1.2em;
+            }
+        }
+        
+    </style>
+    <body bgcolor = #CAEEC4>
+        <div class = "heading">
+            <br>
+            <font color = #377CDE><h1>About Us</h1></font>
+            <hr color=#00008B>
+        </div>
+
+        
+        <div class = 'content'>
+
+            <h2>Aim</h2>
+            <p>To create a cutting-edge web application empowering companies to efficiently manage shared spaces through a robust reservation system equipped with advanced features</p>
+
+            <h2>Motivation</h2>
+            <p>
+                ChopeYourSpot is a Web Application that allows for the reservation and booking of common office spaces in corporate companies.
+                Have you ever been in this situation where you wanted to use a common space but often assume that it is too crowded or felt this is not the right time and ended up never using it? We have developed this solution where corporate companies can register with us and purchase a license using which all users can create a free account, using it to book common spaces in their office. By using our applications, now our corporate users better utilize these common spaces.</p>
+
+            <h2>
+                Stakeholders
+            </h2>
+            <h4>Employer/Employee</h4>
+            <p>As an Employer/Employee, they can to login to this app to book a slot (timing & location) for meetings within the office space. They can also communicate with other users using the chat functionality</p>
+            
+            <h4>
+                Company Administrator
+            </h4>
+            <p>As a Company Administrator, they can manage the different locations available for booking and assist users in making a booking. They can also communicate with other users using the chat functionality.
+                A company administrator is a representative from each company to manage the company. A license for each company is purchased with the creation of a company administrator account. This domain name is used to uniquely identify the company and enables users to create accounts.</p>
+            
+            <h2>Features of this application</h2>
+            <h4>User Authentication</h4>
+            <p>A sophisticated login system that requires a username and a domain name to identify an user. The user is authenticated using passwords and 2-factor authentication using a One Time Password sent through email. Moreover, additional security features such as captchas are used. Based on the user type, a different User interface is rendered with the user specified.</p>
+            
+            <h4>Booking common spaces</h4>
+            <p>Bookings can be made to reserve common spaces within the company premises. These bookings can be made by users (employers/employees) or by company administrators for the users. This is the key functionality for this project which features a customised form for the different user groups and extensive validation of data to ensure that bookings do not conflict with existing bookings and they are made within the operating hours as specified by the company administrators and other validations.</p>
+
+            <h4>
+                Searching for available facilities</h4>
+            <p>This search function is implemented in the user (Employer/Employee) interface and company administrator interface. This feature enables to search for a specific place with their company premise and displays the information such as location ID, name of location, venue and availability in a tabular format.</p>
+
+            <h4>Customized interface for different user groups</h4>
+            <p>Based on the 3 different user groups - Employer/ Employee (a standard user), Company Administrator,and System Administrator, a different user interface and functionalities are rendered. These functionalities reflect the different authorization rights they have when using the system.</p>
+
+            <h4>Messaging</h4>
+            <p>This is a messaging system / chat functionality meant to internally communicate among different users
+            </p>
+
+            <h4>Payment for company registration</h4>
+            <p>This feature is integrated with the creation of a system administrator account.</p>
+
+            <h4>Feedback system</h4>
+            <p>
+                Feedback can be provided to the system administrator and developers using this functionality.</p>
+
+            <h2>About the developers</h2>
+            <p>This application was developed by<br><b><pre>Subramanian Pon Harish (Year 1, CS)</pre></b> <b><pre>Mathivoli Sriganesh (Year 1, CS)</pre></b><br>
+            </p>
+
+
+        </div>
+
+        <br>
+        <div class = "back">
+        <a href = "/"><input type="button" id = "Home" name = "Home"  value="Home"></a> <br>
+        </div>
+
+    </body>
+</html>
