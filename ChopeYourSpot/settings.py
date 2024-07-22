@@ -83,7 +83,10 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "ChopeYourSpot.wsgi.application"
 
-
+CSRF_TRUSTED_ORIGINS = [
+    'https://chopeyourspot-cpf0apcqe8f3fqfu.southindia-01.azurewebsites.net',
+]
+CSRF_COOKIE_SECURE = True
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 

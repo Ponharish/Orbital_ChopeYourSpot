@@ -110,9 +110,12 @@ def login_view(request):
             generate_captcha(request)
 
     corrcapt =request.session['captcha_image']
+    
     return render(request, 'LoginPage.html', {
         'form': form,
-        'captcha_image_url': f'/static/captchas/{corrcapt}'
+        'captcha_image_url': corrcapt
+
+        #check the format of correctcapt
     })
 
 def userRegister_view(request): #FIX BUGS WITH OTP AND CAPTCHA -- OK!
@@ -152,7 +155,7 @@ def userRegister_view(request): #FIX BUGS WITH OTP AND CAPTCHA -- OK!
     corrcapt =request.session['captcha_image']
     return render(request, 'Registrationformforuser.html', {
         'form': form,
-        'captcha_image_url': f'/static/captchas/{corrcapt}'
+        'captcha_image_url': corrcapt
     })
 
 def AdminRegister_view(request): #FIX BUGS WITH OTP AND CAPTCHA --OK!
@@ -198,7 +201,7 @@ def AdminRegister_view(request): #FIX BUGS WITH OTP AND CAPTCHA --OK!
     corrcapt =request.session['captcha_image']
     return render(request, 'Registrationformforcompanyadmin.html', {
         'form': form,
-        'captcha_image_url': f'/static/captchas/{corrcapt}'
+        'captcha_image_url': corrcapt
     })    
 
 def _2faLogin_view(request): 
