@@ -6,7 +6,7 @@ urlpatterns = [
     path('', views.login_view, name = 'loginPage'),
     path('2falogin', views._2faLogin_view, name = '2falogin'),
     path('createAccount', views.createAccount, name = 'createAccount'), 
-    path('resetPassword', views.resetPassword, name = 'resetPassword'), 
+    
 
 
     path('registerUser', views.userRegister_view, name = 'registerUser'), 
@@ -17,6 +17,11 @@ urlpatterns = [
     path('registerAdmin', views.AdminRegister_view, name = 'registerAdmin'), 
     path('payment', views.Payment_view, name = 'payment'), 
     path('adminsuccess', views.adminsuccess, name = 'adminsuccess'), 
+
+    path('resetPassword', views.resetPassword, name = 'resetPassword'), 
+    path('2faresetPassword', views._2faResetPassword, name = '2faresetPassword'), 
+    path('newpassword', views.newpassword, name = 'newpassword'), 
+    path('newpasswordacknowledge', views.newpasswordacknowledge, name = 'newpasswordacknowledge'), 
     
 ]
 
