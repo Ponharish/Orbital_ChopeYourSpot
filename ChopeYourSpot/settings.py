@@ -123,12 +123,34 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = "static/"
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'homePage/static'),
-    os.path.join(BASE_DIR, 'login/static'),
-]
-STATIC_ROOT = os.path.join(BASE_DIR, 'assets')
+
+
+INSTALLED_APPS += ['storages']
+
+# Azure Storage settings
+AZURE_ACCOUNT_NAME = 'chopeyourspotstatic'
+AZURE_ACCOUNT_KEY = 'YZxbnagvuyJcfIo9jBRDTVSvYqz/wOdYTSqM2klrOLWD/fda30jKxpmMaMzLWybeNXGI4bhObLEe+AStd4IPrg=='
+AZURE_CONTAINER = 'static'
+AZURE_CUSTOM_DOMAIN = f'{AZURE_ACCOUNT_NAME}.blob.core.windows.net'
+
+# Static files settings
+STATIC_LOCATION = 'static'
+STATIC_URL = f'https://{AZURE_CUSTOM_DOMAIN}/{STATIC_LOCATION}/'
+STATICFILES_STORAGE = 'storages.backends.azure_storage.AzureStorage'
+
+
+#The following has been commented out to try deploying in azure
+#if any problem arise, uncomment it
+
+# STATIC_URL = "static/"
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR, 'homePage/static'),
+#     os.path.join(BASE_DIR, 'login/static'),
+# ]
+# STATIC_ROOT = os.path.join(BASE_DIR, 'assets')
+
+#####################
+
 
 
 # Default primary key field type
