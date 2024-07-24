@@ -261,3 +261,8 @@ def sysadmcompose(request):
 
 def sysadmsentack(request):
     return render(request, 'mailcomposesuccesssysadm.html')
+
+def viewlistofusers(request):
+    user = users.objects.all()
+    is_empty = not user.exists()  # Check if queryset is empty
+    return render(request, 'viewlistofusers.html', {'users': user, 'is_empty': is_empty})

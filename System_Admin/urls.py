@@ -17,5 +17,6 @@ urlpatterns = [
     path('sysadmsent',views.sysadmsent, name = 'sysadmsent'),
     path('sysadmcompose',views.sysadmcompose, name = 'sysadmcompose'),
     path('sysadmsentack',views.sysadmsentack, name = 'sysadmsentack'),
+    path('viewlistofusers',views.viewlistofusers, name = 'viewlistofusers')
 
 ]
