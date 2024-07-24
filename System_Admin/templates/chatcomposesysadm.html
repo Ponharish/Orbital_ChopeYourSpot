@@ -1,0 +1,79 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Chat</title>
+        <link rel="icon" type="image/x-icon" href="{% static 'logo.png' %}">
+    </head>
+    <style>
+        .heading {
+          background-color: rgb(196, 227, 238);
+          text-align: center;
+        }
+        .form {
+          text-align: center;
+        }
+        .error {
+          text-align: center;
+          color: red;
+          font-size: 22px;
+        }
+        
+    </style>
+    <body bgcolor = #CAEEC4>
+        <div class = "heading">
+            <br>
+            <font color = #377CDE><h1>Compose</h1></font>
+            <hr color=#00008B>
+        </div>
+
+        
+        <div class = "form">
+            <br>
+            <form method = 'post'>
+                {% csrf_token %}
+                <table cellpadding = 7; align = center >
+                    <tr valign = "middle">
+                        <td align = "right"><label for="username">To</label></td>
+                        <td align = "left">{{ form.username }}</td>
+                    </tr>
+
+                    <tr valign = "middle">
+                        <td align = "right"><label for="domain ">Domain</label></td>
+                        <td align = "left">{{ form.domain }}</td>
+                    </tr>
+                    
+                    <tr valign="middle">
+                        <td align="right"><label for="subject">Subject</label></td>
+                        <td align="left">{{ form.subject }}</td>
+                    </tr>
+                    
+
+                    <tr valign="middle">
+                        <td align="right"><label for="message">Message</label></td>
+                        <td align="left">{{ form.message }}</td>
+                    </tr>
+                </table>
+                <br><br>
+                <input type="submit" value="Submit">
+              </form> 
+              <br>
+              <a href = "sysadminbox"><input type="button" id = "Back" name = "Back"  value="Back"></a> <br>
+              
+              
+        </div>
+
+        <div class = "error">
+            {% if form.errors %}
+                    <br><br>
+                    {% for field, errors in form.errors.items %}
+                        {% for error in errors %}
+                            <p><font size = 4>{{ error }}</font></p>
+                        {% endfor %}
+                    {% endfor %}
+                
+            {% endif %}
+        </div>
+
+    </body>
+</html>

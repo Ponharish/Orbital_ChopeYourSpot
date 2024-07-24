@@ -5,10 +5,12 @@ from django.template import loader
 from login.models import registeredDomains, users
 from Company_Admin.models import ListOfCommonSpaces, ListOfBookings, ListOfPastBookings
 from django.views.decorators.cache import never_cache
+from System_Admin.models import Message
 from .makeabookingform import makeabookingform
 from .cancelBookingForm import cancelbookingform
 from .startsessionform import startsessionform
 from .endsessionform import endsessionform
+from .chatempepeForm import chatempepeForm
 from datetime import datetime, date, timedelta
 
 # Create your views here.
@@ -425,3 +427,46 @@ def endsessionsuccess(request):
         request.session.pop('current_booking_to_end')
     return render(request, 'endsessionsuccess.html')
 
+
+
+#CHAT FUNCTIONALITIES
+@never_cache
+def empepeinbox(request):
+    
+    messages = Message.objects.filter(receiver=request.session['Current_login_data']['username'], receiverdomain = request.session['Current_login_data']['domain'])
+    is_empty = not messages.exists()
+    return render(request, 'empepeinbox.html', {'messages': messages, 'is_empty': is_empty})
+
+def empepesent(request):
+    messages = Message.objects.filter(sender=request.session['Current_login_data']['username'], senderdomain = request.session['Current_login_data']['domain'])
+    is_empty = not messages.exists()
+    return render(request, 'empepesent.html', {'messages': messages, 'is_empty': is_empty})
+
+
+def empepecompose(request):
+    if request.method == 'POST':
+        form = chatempepeForm(request.POST)
+        if form.is_valid():
+            sender = request.session['Current_login_data']['username']
+            senderdomain = request.session['Current_login_data']['domain']
+            receiver = form.cleaned_data.get('username').strip()  
+            receiverdomain = form.cleaned_data.get('domain').strip()  
+            subject = form.cleaned_data.get('subject').strip()    
+            message = form.cleaned_data.get('message').strip()    
+
+            mailsetails = Message(sender = sender, senderdomain = senderdomain, receiver = receiver, receiverdomain =receiverdomain, subject = subject, content = message)
+            mailsetails.save()
+
+            return redirect('empepesentack')
+
+
+
+    else:
+        form = chatempepeForm()
+
+    return render(request, 'chatcomposeempepe.html', {
+        'form': form,
+    })   
+
+def empepesentack(request):
+    return render(request, 'mailcomposesuccessempepe.html')

@@ -19,4 +19,9 @@ urlpatterns = [
     path('cancelBooking', views.cancelBooking, name = 'cancelBooking'),
     path('cancelBookingConfirmation', views.cancelBookingConfirmation, name = 'cancelBookingConfirmation'),
     path('cancelBookingSuccess', views.cancelBookingSuccess, name = 'cancelBookingSuccess'),
+
+    path('comadminbox',views.comadminbox, name = 'comadminbox'),
+    path('comadmsent',views.comadmsent, name = 'comadmsent'),
+    path('comadmcompose',views.comadmcompose, name = 'comadmcompose'),
+    path('comadmsentack',views.comadmsentack, name = 'comadmsentack'),
 ]

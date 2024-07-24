@@ -11,6 +11,8 @@ from django.views.decorators.cache import never_cache
 from .approveorrejectcompaniesform import ApproveOrRejectCompanyForm
 from .rejectcompanymessageform import rejectcompanymessageform
 from .approvecompanymessageform import approvecompanymessageform
+from .chatsysadmForm import chatsysadmForm
+from.models import Message
 import smtplib
 
 # Create your views here.
@@ -208,3 +210,54 @@ def approvecompanymessagetoask(request):
         'form': form,
     })   
 
+
+
+
+#CHAT FUNCTIONALITIES
+@never_cache
+def sysadminbox(request):
+    
+    messages = Message.objects.filter(receiver=request.session['Current_login_data']['username'], receiverdomain = request.session['Current_login_data']['domain'])
+    is_empty = not messages.exists() # Check if queryset is empty
+    return render(request, 'sysadminbox.html', {'messages': messages, 'is_empty': is_empty})
+
+def sysadmsent(request):
+    messages = Message.objects.filter(sender=request.session['Current_login_data']['username'], senderdomain = request.session['Current_login_data']['domain'])
+    is_empty = not messages.exists() # Check if queryset is empty
+    return render(request, 'sysadmsent.html', {'messages': messages, 'is_empty': is_empty})
+
+
+def sysadmcompose(request):
+    if request.method == 'POST':
+        form = chatsysadmForm(request.POST)
+        if form.is_valid():
+            sender = request.session['Current_login_data']['username']
+            senderdomain = request.session['Current_login_data']['domain']
+            receiver = form.cleaned_data.get('username').strip()  
+            receiverdomain = form.cleaned_data.get('domain').strip()  
+            subject = form.cleaned_data.get('subject').strip()    
+            message = form.cleaned_data.get('message').strip()    
+
+            # print(sender)
+            # print(senderdomain)
+            # print(receiver)
+            # print(receiverdomain)
+            # print(subject)
+            # print(message)
+
+            mailsetails = Message(sender = sender, senderdomain = senderdomain, receiver = receiver, receiverdomain =receiverdomain, subject = subject, content = message)
+            mailsetails.save()
+
+            return redirect('sysadmsentack')
+
+
+
+    else:
+        form = chatsysadmForm()
+
+    return render(request, 'chatcomposesysadm.html', {
+        'form': form,
+    })   
+
+def sysadmsentack(request):
+    return render(request, 'mailcomposesuccesssysadm.html')

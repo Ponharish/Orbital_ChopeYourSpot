@@ -20,4 +20,8 @@ urlpatterns = [
     path('endSessionconfirmation', views.endSessionconfirmation, name = 'endSessionconfirmation'),
     path('endsessionsuccess', views.endsessionsuccess, name = 'endsessionsuccess'),
     
+    path('empepeinbox',views.empepeinbox, name = 'empepeinbox'),
+    path('empepesent',views.empepesent, name = 'empepesent'),
+    path('empepecompose',views.empepecompose, name = 'empepecompose'),
+    path('empepesentack',views.empepesentack, name = 'empepesentack'),
 ]

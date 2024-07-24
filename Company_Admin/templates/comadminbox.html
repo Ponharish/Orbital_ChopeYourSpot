@@ -1,0 +1,140 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chat</title>
+    <link rel="icon" type="image/x-icon" href="{% static 'logo.png' %}">
+    <style>
+        .heading {
+            background-color: rgb(196, 227, 238);
+            text-align: center;
+        }
+        .content {
+            text-align: center;
+        }
+        .backbtn {
+            text-align: center;
+        }
+        .search-container {
+            text-align: left;
+            margin-bottom: 15px;
+            margin-top: 20px;
+            margin-left: 20px;
+        }
+        .search-container input {
+            width: 300px;
+            padding: 8px;
+            font-size: 14px;
+        }
+        .error {
+            text-align: center;
+            color: red;
+            font-size: 22px;
+        }
+        .inbox-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .message {
+            padding: 10px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        .subject {
+            padding: 10px;
+            margin-bottom: 10px;
+            font-weight: bold;
+            text-align: left;
+        }
+        .msgcontent {
+            padding: 15px;
+            text-align: left;
+        }
+        .sender {
+            font-weight: bold;
+            text-align: left;
+        }
+        .timestamp {
+            color: #999;
+            font-size: 0.9em;
+            text-align: right;
+        }
+        .otherchatfns {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+        .otherchatfns a {
+            margin: 10px;
+        }
+        .otherchatfns input[type="button"] {
+            padding: 15px 30px;
+            font-size: 1.0em;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body bgcolor="#CAEEC4">
+    <div class="heading">
+        <br>
+        <font color="#377CDE"><h1 style="padding-left: 20px;" id="unamefield">Inbox</h1></font>
+        <hr color="#00008B">
+    </div>
+    <div class="otherchatfns">
+        <br>
+        <a href="comadmcompose"><input type="button" id="compose" name="compose" value="Compose"></a> 
+        <a href="comadmsent"><input type="button" id="sentemail" name="sentemail" value="Sent Emails"></a> 
+    </div>
+    {% if not is_empty %}
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="Search..." onkeyup="searchMessages()">
+    </div>
+    {% endif %}
+    <div class="content">
+        <br>
+        <div class="inbox-container" id="messageContainer">
+            {% for message in messages %}
+            <div class="message">
+                <div class="sender"><font color="#377CDE">{{ message.sender }} {{ message.senderdomain }}</font></div>
+                <br>
+                <div class="subject">SUB: {{ message.subject }}</div>
+                <div class="msgcontent">{{ message.content }}</div>
+                <div class="timestamp">{{ message.timestamp }}</div>
+            </div>
+            {% empty %}
+            <p>No messages.</p>
+            {% endfor %}
+        </div>
+    </div>
+    <br><br><br>
+    <div class = "backbtn">
+    <a href="./"><input type="button" id="Back" name="Back" value="Back"></a> <br>
+    </div>
+    <div class="error">
+        <p></p>
+    </div>
+    <script>
+        function searchMessages() {
+            var input, filter, container, messages, message, i, txtValue;
+            input = document.getElementById("searchInput");
+            filter = input.value.toLowerCase();
+            container = document.getElementById("messageContainer");
+            messages = container.getElementsByClassName("message");
+
+            for (i = 0; i < messages.length; i++) {
+                message = messages[i];
+                txtValue = message.textContent || message.innerText;
+                if (txtValue.toLowerCase().indexOf(filter) > -1) {
+                    message.style.display = "";
+                } else {
+                    message.style.display = "none";
+                }
+            }
+        }
+    </script>
+</body>
+</html>

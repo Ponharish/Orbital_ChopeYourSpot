@@ -1,0 +1,42 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Logout</title>
+        <link rel="icon" type="image/x-icon" href="{% static 'logo.png' %}">
+    </head>
+    <style>
+        .heading {
+          background-color: rgb(196, 227, 238);
+          
+        }
+        .content {
+          text-align: center;
+        }
+        .error {
+          text-align: center;
+          color: red;
+          font-size: 22px;
+        }
+    </style>
+    <body bgcolor = #CAEEC4>
+        <div class = "heading">
+            <br>
+            <font color = #377CDE><h3 id = "unamefield"></h3></font>
+            <hr color=#00008B>
+        </div>
+
+        <div class = "content">
+            <br>
+            <p>Your message has been sent successfully<br></p>
+            <br><br><br><br><br><br><br><br><br>
+            <a href = "empepeinbox"><input type="button" id = "Home" name = "Home" value="Home"></a> <br>
+        </div>
+
+        
+
+        <div class = "error">
+            <P> </P>
+        </div>
+    </body>
+</html>

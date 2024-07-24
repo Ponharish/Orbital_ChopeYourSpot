@@ -5,12 +5,14 @@ from django.template import loader
 from datetime import datetime, date, timedelta
 from login.models import registeredDomains
 from login.models import users 
+from System_Admin.models import Message
 from .models import ListOfCommonSpaces, ListOfBookings, ListOfPastBookings
 from django.views.decorators.cache import never_cache
 from .addcommonspaceform import addcommonspaceform
 from .removecommonspaceform import removecompanyform
 from .makeabookingform import makeabookingform
 from .cancelBookingForm import cancelbookingform
+from .chatcomadmForm import chatcomadmForm
 
 # Create your views here.
 
@@ -579,4 +581,47 @@ def cancelBookingSuccess(request):
 #Probanle cause - some data is being cached and not deleted properly
 
 #Also when making a booking using safari, it says that '<' comparision is not allowed - CHECK THIS OUT
-#Chatgpt the cause
+
+
+
+#CHAT FUNCTIONALITIES
+@never_cache
+def comadminbox(request):
+    
+    messages = Message.objects.filter(receiver=request.session['Current_login_data']['username'], receiverdomain = request.session['Current_login_data']['domain'])
+    is_empty = not messages.exists()
+    return render(request, 'comadminbox.html', {'messages': messages, 'is_empty': is_empty})
+
+def comadmsent(request):
+    messages = Message.objects.filter(sender=request.session['Current_login_data']['username'], senderdomain = request.session['Current_login_data']['domain'])
+    is_empty = not messages.exists()
+    return render(request, 'comadmsent.html', {'messages': messages, 'is_empty': is_empty})
+
+
+def comadmcompose(request):
+    if request.method == 'POST':
+        form = chatcomadmForm(request.POST)
+        if form.is_valid():
+            sender = request.session['Current_login_data']['username']
+            senderdomain = request.session['Current_login_data']['domain']
+            receiver = form.cleaned_data.get('username').strip()  
+            receiverdomain = form.cleaned_data.get('domain').strip()  
+            subject = form.cleaned_data.get('subject').strip()    
+            message = form.cleaned_data.get('message').strip()    
+
+            mailsetails = Message(sender = sender, senderdomain = senderdomain, receiver = receiver, receiverdomain =receiverdomain, subject = subject, content = message)
+            mailsetails.save()
+
+            return redirect('comadmsentack')
+
+
+
+    else:
+        form = chatcomadmForm()
+
+    return render(request, 'chatcomposecomadm.html', {
+        'form': form,
+    })   
+
+def comadmsentack(request):
+    return render(request, 'mailcomposesuccesscomadm.html')

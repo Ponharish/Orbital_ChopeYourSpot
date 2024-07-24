@@ -13,5 +13,9 @@ urlpatterns = [
     path('rejectcompanymessage',views.rejectcompanymessage, name = 'rejectcompanymessage'),
     path('approvecompanymessagetoask',views.approvecompanymessagetoask, name = 'approvecompanymessagetoask'),
     path('rejectcompanymessagetoask',views.rejectcompanymessagetoask, name = 'rejectcompanymessagetoask'),
+    path('sysadminbox',views.sysadminbox, name = 'sysadminbox'),
+    path('sysadmsent',views.sysadmsent, name = 'sysadmsent'),
+    path('sysadmcompose',views.sysadmcompose, name = 'sysadmcompose'),
+    path('sysadmsentack',views.sysadmsentack, name = 'sysadmsentack'),
 
 ]
