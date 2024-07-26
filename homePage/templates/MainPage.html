@@ -53,6 +53,53 @@
           color: red;
           font-size: 22px;
         }
+
+        .ads {
+            padding: 20px;
+            background-color: rgb(196, 227, 238);
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            margin: 20px auto;
+            max-width: 800px;
+        }
+
+        .ads-separator {
+            border: none;
+            height: 2px;
+            background-color: #00008B;
+            margin: 20px 0;
+        }
+
+        .ads-header {
+            text-align: center;
+            color: #377CDE;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+        }
+
+        .ad-item {
+            margin: 15px 0;
+        }
+
+        .ad-item a {
+            display: block;
+            padding: 10px;
+            text-decoration: none;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            color: #000;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        .ad-item a:hover {
+            background-color: #f0f0f0;
+            border-color: #ccc;
+        }
+
+        .ad-item a:visited {
+            color: #555;
+        }
     </style>
     <body bgcolor = #CAEEC4>
 
@@ -79,12 +126,43 @@
             <a href = 'aboutus'><button class="button button1"type="button" autofocus><img src = "{% static 'aboutus.png' %}" alt = "aboutus" height = 170; width = 155;></button></a>
         </div>
 
-        <!-- <br><br><br> -->
-        <div>
+ 
+        <br><br>
+            <hr class="ads-separator">
+            <br><br><br>
+        <div class="ads">
+            
+            <h3 class="ads-header">Do checkout the following products for your office!</h3>
+            <div class="ad-item">
+                <a href="https://www.amazon.com/SIHOO-Chair-Office/dp/B07GNDDNMW?crid=16JT9LQYA0P0D&dib=eyJ2IjoiMSJ9.lVb190m2k51I_dxlP4K_IppWj8G-piaiZCDfQMaCGshGArUoBhXV6gKWpp_FDhfo5Gp1OJJmLBUOuXSGC7CekXh-tk6MZOIkZ3BtkjrSARAFoQ8qLXQ3wiXW3Pu0kQZjhhkqMgIW4jnEkd1XExwrqKMAREKXoYDF8ojIXJU5GYHGlbx1BNlUXB0vImOg2kHUqBp1LJb6nepfgKnUv3a-qIUwcGQ5kgTdbrmBIuN8CftYCHCZ3OqG6tGltJdf8po9EblAb-jX0VvietHh72bBNSSgyCt6a7KYxiuTXgcwQio.FoqNOHGpfrVwZr9oamgbdtMO4ghinDXfD8_wY8zqE4U&dib_tag=se&keywords=office%2Bchair&qid=1721901245&sprefix=office%2B%2Caps%2C424&sr=8-1-spons&sp_csd=d2lkZ2V0TmFtZT1zcF9hdGY&th=1&linkCode=ll1&tag=chopeyourspot-20&linkId=dc6103148f897f7c88e61ca8b2b2add5&language=en_US&ref_=as_li_ss_tl">
+                    SIHOO M18 Ergonomic Office Chair for Big and Tall People Adjustable Headrest
+                </a>
+            </div>
+            <div class="ad-item">
+                <a href="https://www.amazon.com/AmazonBasics-Puresoft-PU-Padded-Mid-Back-Computer/dp/B081H3Y5NW?crid=16JT9LQYA0P0D&dib=eyJ2IjoiMSJ9.lVb190m2k51I_dxlP4K_IvSFE3bOj6tkG-Hog9tElIqCYCr2ZRdG6VxsY6_v4Rnz_fJfQRVwIW7H4kby1Fn7eDBYyrbzzy3v2hLgCfDt0XUFoQ8qLXQ3wiXW3Pu0kQZjhhkqMgIW4jnEkd1XExwrqMxuVAQw_UTd3FCLFKNifJGwe6aQ2prMAA2c95qgy51IgCx6aYkh7uja33T8UwSuwsnLDzN87xfRyLiEb-SlNKXdjAu8OarphJTU0IiqR7gL5NHBgNl7NvJUvEDaFyQyVvZMh3tVYFflwC7t9yFYZgM.hZxPoRPD-ZPOB7cbz6b6Wg1WSJYG4WWA3GfjWJFYBEA&dib_tag=se&keywords=office+chair&qid=1721974133&sprefix=office+%2Caps%2C424&sr=8-5&linkCode=ll1&tag=chopeyourspot-20&linkId=b998339faccc33a73dd3ee7aef1e04cc&language=en_US&ref_=as_li_ss_tl">
+                    Amazon Basics Classic Puresoft PU Padded Mid-Back Office Computer Desk Chair with Armrest
+                </a>
+            </div>
+            <div class="ad-item">
+                <a href="https://www.amazon.com/Tribesigns-Computer-Executive-Writing-Workstation/dp/B0BRVC7Y7W?crid=89AG3V3FBJCC&dib=eyJ2IjoiMSJ9.Io3nO-0WYFsJGHlPHm5kBLw9Hnf22POKDOTZfT3lzEzQ26lw572biSGaSKuu8XRaj2WEudmsTmfW1H1_-VXKxpOzYx9YlS-F0swT47E7coSH6VtjcUc2ESvxu_3PTeWYU5uCRg3DV4iKDQpKY0wbTMQt3pC4yTZUWN5UwWdfGbZsAqhPqoWeOgxe8BlMfoOLBCZEpIwPhjvd_GHg9YzLJ3ZrevtiYJvYbk1oWOogsJWi5Inm_THaICAX-BCpuF5tTMAHcvyDIyUpimknEMrtpWdmQH2y7XaF0SdsocyU8jM.bEK8j0YvVB2XG2fDjc5LzzrHFpCkuwAirUhAngFzD5A&dib_tag=se&keywords=office%2Btable&qid=1721974294&sprefix=office%2Btabl%2Caps%2C446&sr=8-1-spons&sp_csd=d2lkZ2V0TmFtZT1zcF9hdGY&th=1&linkCode=ll1&tag=chopeyourspot-20&linkId=e8be078cf4ebcc9628e9de64023e78cc&language=en_US&ref_=as_li_ss_tl">
+                    Tribesigns Modern Computer Desk
+                </a>
+            </div>
+            <div class="ad-item">
+                <a href="https://www.amazon.com/HHSOET-Adhesive-Removable-Protector-Extension/dp/B0B4NHP3YG?crid=186RRU1D8M9VJ&dib=eyJ2IjoiMSJ9.EouXRtyDuw7vZF3RR1z96WM5sRji79Yz6G8IKYHcAGlWRq3OLVIAZsaqn20lEMPB8wK8Ozq6am8d8X1yTjDWmOFv7yIBIcPX9jObha6H2onmGji12Jebol39IszZkVZ17IPLP5eONzxDB_mC2ULMRJieck7fv9zb74O_8U-ikjVPetgu1Ayy2jIEiWfVj0nQif-38nzxrNgUQ5g9yP_upD2sThBmqXWv--io6yu_M4xwqUmB7YtKsNuUgfutJ8Scv8QclXtwrBwy3NQWWevEo7HKDedEOF4eUU5sGxa_yGk.BYMpKPrchaYoV3kkWnjxA6lZm6bUfHar67JA66vjWEA&dib_tag=se&keywords=office%2Bequipment&qid=1721974395&sprefix=office%2Beq%2Caps%2C558&sr=8-22-spons&sp_csd=d2lkZ2V0TmFtZT1zcF9tdGY&th=1&linkCode=ll1&tag=chopeyourspot-20&linkId=7e64c9e1eb1c74cb762958b9bcfd2f64&language=en_US&ref_=as_li_ss_tl">
+                    HHSOET Under Desk Power Strip with 3M Adhesive
+                </a>
+            </div>
+            <div class="ad-item">
+                <a href="https://www.amazon.com/Glass-Whiteboard-Magnetic-Erase-Board/dp/B08RYQS9JL?crid=GQWFYJO5SCIL&dib=eyJ2IjoiMSJ9.dSY2NdBzhEg-fO7HGLmbyu6pgXV9Z6IGt7jX0O9b3DuV4IdlTewssnWtTCTRYDPfH-8HnXJDgNqQpblDJmHVTv4Z6-AagYX1AHlOAGFCMQHNUa5w-ZN-299DNDCLLsi9W4yKRoaMjVGsu3oM6UlBcFw_JOe4igPk5D1qZ5N0Y3Of0xcv3DtqKmeCAumyPCuCJHlsIfH3VdowronEupTKga1d7qolUT-9TdB_vO-ZM33su-EB_9MTovkWXHluUFpbCJSm6uJWqj8w5cQ94P5tbFtWkqKhk1A_LFl8oOXhogI.7PD7_z7OWbbvOrkctGHzZUjc2BdZpcpvT6o4ySSMrKA&dib_tag=se&keywords=office+white+board+for+wall&qid=1721974464&sprefix=office+white%2Caps%2C571&sr=8-3-spons&sp_csd=d2lkZ2V0TmFtZT1zcF9hdGY&psc=1&linkCode=ll1&tag=chopeyourspot-20&linkId=27ba72fe1294f68d12236c0e5b708ecd&language=en_US&ref_=as_li_ss_tl">
+                    Magnetic Dry Erase Glass Board
+                </a>
+            </div>
+        </div>
             
         
             
-            
+        <div class = "googleAds">   
        <ins class="adsbygoogle"
             style="display:block"
             data-ad-format="autorelaxed"
@@ -95,6 +173,7 @@
        <script>
             (adsbygoogle = window.adsbygoogle || []).push({});
        </script>
+       </div>
 
         
 
