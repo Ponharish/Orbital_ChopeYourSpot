@@ -192,6 +192,10 @@ Part 2 - Adding common spaces, Making reservations
 
 https://drive.google.com/file/d/1ejvYKYJJywzaVNrQ0o0JOwEmqWskHrPz/view?usp=sharing 
 
+Part 3 - Final Demo, Chat function
+
+https://drive.google.com/file/d/1glIDPZ5FzCgNUR0bFMNZFDZjyMNIa_2B/view?usp=drive_link	
+
 
 # Link to README (with graphics)
 https://docs.google.com/document/d/1gX8nyiyHayE8qKkUcm_gqjzRkcQH0A1fzM0LMwaQ1iw/edit#heading=h.76gx2jj4hzmx
