@@ -6,6 +6,7 @@ from django.template import loader
 from login.models import registeredDomains
 from login.models import users
 from login.models import payments
+from homePage.models import Enquiry, Feedback
 from .models import paymenthistorydump
 from django.views.decorators.cache import never_cache
 from .approveorrejectcompaniesform import ApproveOrRejectCompanyForm
@@ -14,7 +15,9 @@ from .approvecompanymessageform import approvecompanymessageform
 from .chatsysadmForm import chatsysadmForm
 from.models import Message
 import smtplib
-
+from django.http import FileResponse, HttpResponseForbidden
+from django.conf import settings
+import os
 # Create your views here.
 
 @never_cache
@@ -266,3 +269,27 @@ def viewlistofusers(request):
     user = users.objects.all()
     is_empty = not user.exists()  # Check if queryset is empty
     return render(request, 'viewlistofusers.html', {'users': user, 'is_empty': is_empty})
+
+def download_db(request):
+    # Check for user authentication or authorization if needed
+    
+    db_path = os.path.join(settings.BASE_DIR, 'db.sqlite3')
+
+    if not os.path.exists(db_path):
+        return HttpResponseForbidden("Database file not found.")
+
+    response = FileResponse(open(db_path, 'rb'), content_type='application/x-sqlite3')
+    response['Content-Disposition'] = 'attachment; filename=db.sqlite3'
+    return response
+
+@never_cache
+def viewenquiries(request):
+    enquiries = Enquiry.objects.all()
+    is_empty = not enquiries.exists()  # Check if queryset is empty
+    return render(request, 'viewlistofenquiries.html', {'enquiries': enquiries, 'is_empty': is_empty})
+
+@never_cache
+def viewfeedbacks(request):
+    feedbacks = Feedback.objects.all()
+    is_empty = not feedbacks.exists()  # Check if queryset is empty
+    return render(request, 'viewlistoffeedbacks.html', {'feedbacks': feedbacks, 'is_empty': is_empty})

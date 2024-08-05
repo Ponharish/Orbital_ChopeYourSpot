@@ -1,0 +1,140 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>List of Feedbacks</title>
+        <link rel="icon" type="image/x-icon" href="{% static 'logo.png' %}">
+    </head>
+    <style>
+        .heading {
+          background-color: rgb(196, 227, 238);
+          text-align: center;
+        }
+        .content {
+          text-align: center;
+        }
+
+        .search-container {
+                text-align: left; 
+                margin-bottom: 15px; 
+                margin-top: 20px; 
+                margin-left: 20px; 
+            }
+        
+        .search-container input {
+                width: 300px; 
+                padding: 8px; 
+                font-size: 14px; 
+            }
+        
+        
+        .error {
+          text-align: center;
+          color: red;
+          font-size: 22px;
+        }
+
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border: 1px solid rgb(0, 0, 0);
+            word-wrap: break-word; /* Old spec */
+            overflow-wrap: break-word; /* Modern spec */
+            word-break: break-all; /* Break words to prevent overflow */
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+    <body bgcolor = #CAEEC4>
+        
+        <div class = "heading">
+            <br>
+            <font color = #377CDE><h2 style="padding-left: 20px;" id = "unamefield">Feedbacks Received</h2></font>
+            
+            <hr color=#00008B>
+        </div>
+
+        {% if not is_empty %}
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Search..." onkeyup="searchTable()">
+        </div>
+        {% endif %}
+
+        <div class = "content">
+
+            
+            <br>
+
+            {% if is_empty %}
+            <p><font color = "red"> No Records Found! </font></p>
+            {% else %}
+
+            <table border="1" id="dataTable">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Rating</th>
+                        <th>Message</th>
+                        
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for fdb in feedbacks %}
+                    <tr>
+                        <td>{{ fdb.name }}</td>
+                        <td>{{ fdb.email }}</td>
+                        <td>{{ fdb.rating }}</td>
+                        <td>{{ fdb.feedback_text }}</td>
+                      
+                        
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% endif %}
+
+            <br><br><br>
+            <a href = "./"><input type="button" id = "Back" name = "Back" value="Back"></a> <br>
+        </div>
+
+        
+        <div class = "error">
+            <P> </P>
+        </div>
+
+        <script>
+            function searchTable() {
+                var input, filter, table, tr, td, i, j, txtValue;
+                input = document.getElementById("searchInput");
+                filter = input.value.toLowerCase();
+                table = document.getElementById("dataTable");
+                tr = table.getElementsByTagName("tr");
+
+                for (i = 1; i < tr.length; i++) {  // Skip the header row
+                    tr[i].style.display = "none";  // Initially hide the row
+                    td = tr[i].getElementsByTagName("td");
+                    for (j = 0; j < td.length; j++) {
+                        if (td[j]) {
+                            txtValue = td[j].textContent || td[j].innerText;
+                            if (txtValue.toLowerCase().indexOf(filter) > -1) {
+                                tr[i].style.display = "";  // Show the row if a match is found
+                                break;  // Stop searching once a match is found
+                            }
+                        }
+                    }
+                }
+            }
+        </script>
+    </body>
+</html>

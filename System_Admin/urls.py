@@ -17,6 +17,10 @@ urlpatterns = [
     path('sysadmsent',views.sysadmsent, name = 'sysadmsent'),
     path('sysadmcompose',views.sysadmcompose, name = 'sysadmcompose'),
     path('sysadmsentack',views.sysadmsentack, name = 'sysadmsentack'),
-    path('viewlistofusers',views.viewlistofusers, name = 'viewlistofusers')
+    path('viewlistofusers',views.viewlistofusers, name = 'viewlistofusers'),
+    path('download-db', views.download_db, name='download_db'),
+    path('viewenquiries', views.viewenquiries, name='viewenquiries'),
+    path('viewfeedbacks', views.viewfeedbacks, name='viewfeedbacks'),
+    
 
 ]
